@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+Delete by id:
+<br>
+<input type="text" id="inp">
+<br>
+<button id = "btn">Click</button>
+
+    <script>
+
+    $( "#btn" ).click(function() {
+        $.ajax({
+            url: '/api/user/course?' + $.param({'id': $("#inp").val()}),
+            type: 'DELETE',
+            success: function(result) {
+                // Do something with the result
+            }
+        });
+    });
+    </script>
+</body>
+</html>
