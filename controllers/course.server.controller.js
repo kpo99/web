@@ -117,7 +117,50 @@ exports.course_subscribe = function(req){
 };
 
 
+exports.course_update_teacher = function (req) {
+    return new Promise(function (resolve,reject) {
+        if(req.user){
+            if(req.user.role === 'teacher'){
+                if(!req.query.id)
+                    reject([values.unprocessableEntity,jsonStatus.wrong_body]);
+                let where = {};
+                where.user_id = req.user._id;
+                where._id = req.query.id;
 
+                Course.findOne(where,function(err,course){
+                    if (err)
+                        reject([values.internalServerError,err]);
+                    if(course){
+                        if(req.query.name)
+                            course.name = req.query.name;
+                        if(req.query.year) {
+                            if (validator.isNumber(req.query.year))
+                                course.year = parseInt(req.query.year);
+                            else
+                                reject([values.unprocessableEntity,jsonStatus.wrong_params]);
+
+                        }
+
+                        course.save(function (err) {
+                           if(err)
+                               reject([values.internalServerError,err]);
+                            else
+                               resolve(jsonStatus.save_succes);
+                        });
+                    }
+                    else
+                        reject([values.notFound,jsonStatus.not_found]);
+
+                });
+            }
+            else
+                reject([values.not_authorized,jsonStatus.inappropriate_role]);
+
+        }
+        else
+            reject([values.not_authorized,jsonStatus.not_authorized]);
+    });
+};
 
 
 
@@ -147,5 +190,44 @@ exports.course_getById = function(req){
 
 };
 
+exports.course_addLab = function (req) {
+    return new Promise(function (resolve,reject) {
+       if(req.user){
+            if( req.user.role === 'teacher'){
+                if(!req.body.id)
+                    reject([values.unprocessableEntity,jsonStatus.wrong_body]);
+                let where = {};
+                where.user_id = req.user._id;
+                where._id = req.body.id;
+                Course.findOne(where,function(err,course){
+                    if (err)
+                        reject([values.internalServerError,err]);
+                    if (course)
+                    {
+                     var lab = new Lab({
+                         number: parseInt(req.body.number),
+                         name: req.body.name,
+                         aim: req.body.aim,
+                         theme: req.body.theme
+                     });
+                        course.labs.push(lab);
+                        course.save(function (err) {
+                            if(err)
+                                reject([values.internalServerError,err]);
+                            resolve(jsonStatus.save_succes);
+                        });
+                    }
+                    else
+                        reject([values.notFound,jsonStatus.not_found]);
+
+                });
+            }
+            else
+                reject([values.not_authorized,jsonStatus.inappropriate_role]);
+       }
+       else
+           reject([values.not_authorized,jsonStatus.not_authorized]);
+    });
+};
 
 
