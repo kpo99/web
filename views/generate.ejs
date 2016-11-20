@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+Course id:
+<br>
+<input type="text" id="course_id">
+<br>
+Lab id:
+<input type="text" id="lab_id">
+<br>
+<button id = "btn">Click</button>
+
+<script>
+
+    $( "#btn" ).click(function() {
+        $.ajax({
+            url: '/api/user/course/generate?' + $.param({'course_id': $("#course_id").val(),'lab_id':$("#lab_id").val()}),
+            type: 'GET',
+            success: function(result) {
+                // Do something with the result
+            }
+        });
+    });
+</script>
+</body>
+</html>
