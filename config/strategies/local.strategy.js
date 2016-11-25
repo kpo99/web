@@ -1,6 +1,4 @@
-/**
- * Created by Peter on 09.11.2016.
- */
+
 var passport = require('passport');
     LocalStrategy = require('passport-local');
     User = require('../../models/user.server.model');
