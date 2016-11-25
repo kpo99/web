@@ -5,13 +5,17 @@ var express = require('express');
 var router = express.Router();
 var userCtrl = require('../../controllers/user.server.controller');
 var passport = require('passport');
+var jsonStatus = require('../../config/status')
 
 
 router.post('/signUp', function(req, res, next) {
-    //TODO pass check
-    userCtrl.create(req,res)
-        .then(status => res.json(status))
-        .catch(err=>res.json(err));
+    if (req.body.password === req.body.passwordConfirm) {
+        userCtrl.create(req, res)
+            .then(status => res.json(status))
+            .catch(err=>res.json(err));
+    }
+    else
+        res.status(400).json(jsonStatus.pass_no_match);
 });
 
 router.post('/logIn', passport.authenticate('local',{

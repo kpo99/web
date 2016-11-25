@@ -4,6 +4,8 @@
 var express = require('express');
 var router = express.Router();
 var courseCtrl = require('../controllers/course.server.controller');
+var values = require('../config/values');
+var jsonStatus = require('../config/status');
 
 /* GET home page. */
 router.get('/addCourse', function(req, res, next) {
@@ -35,7 +37,16 @@ router.get('/generateCourse', function(req, res, next) {
     res.render('generate');
 });
 router.get('/addLab', function(req, res, next) {
-    res.render('addLab');
+    if(req.user) {
+        if(req.user.role === 'teacher')
+            res.render('addLab');
+        else if(req.user.role ==='user')
+            res.render('labSubscribe');
+        else
+            res.status(values.not_authorized).json(jsonStatus.inappropriate_role);
+    }
+    else
+        res.status(values.not_authorized).json(jsonStatus.not_authorized);
 });
 
 

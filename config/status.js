@@ -51,3 +51,18 @@ exports.wrong_info = {
     status: 'error',
     message: 'All info required'
 };
+
+exports.subscribe_error = {
+    status: 'error',
+    message: 'Multiply subscribing restricted'
+};
+
+exports.course_not_exist = {
+    status: 'error',
+    message: 'Course doesn\'t exist'
+};
+
+exports.pass_no_match = {
+    status: 'error',
+    message: 'Passwords don\'t match '
+};

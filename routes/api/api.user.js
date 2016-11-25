@@ -19,6 +19,7 @@ router.post('/course', function(req, res, next) {
                 .catch((err)=>res.status(err[0]).json(err[1]));
         }
         else if(req.user.role === 'user'){
+            console.log('Here');
             courseCtrl.course_subscribe(req)
                 .then(status => res.json(status))
                 .catch(err => res.status(err[0]).json(err[1]));
@@ -27,7 +28,7 @@ router.post('/course', function(req, res, next) {
             res.status(values.not_authorized).json(jsonStatus.inappropriate_role);
     }
     else
-        res.status(values.not_authorized).json(jsonStatus.inappropriate_role);
+        res.status(values.not_authorized).json(jsonStatus.not_authorized);
 });
 
 router.get('/course',function(req,res){
@@ -53,9 +54,9 @@ router.get('/course',function(req,res){
                 res.status(values.unprocessableEntity).json(jsonStatus.wrong_params);
         }
         else if(req.query.course_id){
-            courseCtrl.course_getById(req)
+            courseCtrl.course_getById(req,res)
                 .then(course => res.json(course))
-                .catch(err => res.status(err[0].json(err[1])));
+                .catch(err => res.status(err[0]).json(err[1]));
 
         }
         else
@@ -144,6 +145,11 @@ router.post('/course/lab',function(req,res){
     if(req.user){
         if(req.user.role === 'teacher'){
             courseCtrl.course_addLab(req)
+                .then(status => res.json(status))
+                .catch(err => res.status(err[0]).json(err[1]));
+        }
+        else if(req.user.role === 'user'){
+            courseCtrl.course_subscribeLab(req)
                 .then(status => res.json(status))
                 .catch(err => res.status(err[0]).json(err[1]));
         }

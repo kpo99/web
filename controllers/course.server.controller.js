@@ -86,14 +86,22 @@ exports.course_subscribe = function(req){
             if (req.user.role === 'user'){
                 if(!req.body.id)
                     reject([values.unprocessableEntity,jsonStatus.wrong_body]);
+                Course.findOne({global_id: req.body.id,property: 'private'}, function(err,course){
+                    if(err)
+                        reject([values.internalServerError,err]);
+                    if(course)
+                        reject([values.forbidden,jsonStatus.subscribe_error]);
+                });
                 Course.findOne({_id: req.body.id, property: 'public'},function(err,course){
                     if (err)
                         reject([values.internalServerError,err]);
                     if(course) {
+                        course.global_id = course._id;
                         course._id = mongoose.Types.ObjectId();
                         course.isNew = true;
                         course.user_id = req.user._id;
                         course.property = 'private';
+
                         course.save(function (error, newCourse) {
                             if (error)
                                 reject([values.internalServerError, error]);
@@ -171,6 +179,7 @@ exports.course_getById = function(req){
                 reject([values.unprocessableEntity,jsonStatus.wrong_body]);
             let where = {};
             where.user_id = req.user._id;
+            where.property = 'private';
             where._id = req.query.course_id;
             Course.findOne(where,function(err,course){
                 if (err)
@@ -178,7 +187,16 @@ exports.course_getById = function(req){
                 if (course)
                     resolve(course);
                 else
-                    reject([values.notFound,jsonStatus.not_found]);
+                {
+                    Course.findOne({_id: req.query.course_id, property: 'public'}, function(error,gCourse){
+                        if (error)
+                            reject([values.internalServerError,error]);
+                        if (gCourse)
+                            resolve(gCourse);
+                        else
+                            reject([values.notFound,jsonStatus.not_found]);
+                });
+                }
 
             });
 
@@ -228,6 +246,61 @@ exports.course_addLab = function (req) {
        else
            reject([values.not_authorized,jsonStatus.not_authorized]);
     });
+};
+
+
+
+exports.course_subscribeLab = function (req) {
+  return new Promise(function (resolve,reject) {
+      if (req.user){
+          if (req.user.role === 'user'){
+            if(!req.body.course_id || !req.body.lab_id)
+                reject([values.unprocessableEntity,jsonStatus.wrong_body]);
+
+
+            new Promise(function(res,rej) {
+                Course.findOne({_id: req.body.course_id, property: 'public'}, function (err, course) {
+                    if (err)
+                        rej([values.internalServerError, err]);
+                    if (course) {
+                        res(course);
+                    }
+                    else
+                        rej([values.notFound, jsonStatus.not_found]);
+                });
+            })  .then(course => {
+                    Course.findOne({user_id: req.user._id ,global_id: req.body.course_id, property: 'private'},function(err,pCourse){
+                        if(err)
+                            reject([values.internalServerError, err]);
+                        if(pCourse){
+                            var lab = course.labs.id(req.body.lab_id);
+                            if(!lab)
+                                reject([values.notFound, jsonStatus.not_found]);
+                            if (pCourse.labs.id(req.body.lab_id))
+                                reject([values.forbidden,jsonStatus.subscribe_error]);
+                            pCourse.labs.push(lab);
+                            pCourse.save(function(err){
+                                if(err)
+                                    reject([values.internalServerError, err]);
+                                else
+                                    resolve(jsonStatus.save_succes);
+                            });
+
+                        }
+                        else
+                            reject([values.notFound, jsonStatus.course_not_exist]);
+                    });
+            })
+                .catch(error => reject(error));
+
+          }
+          else
+              reject([values.not_authorized,jsonStatus.inappropriate_role]);
+      }
+      else
+          reject([values.not_authorized,jsonStatus.not_authorized]);
+
+  });
 };
 
 
