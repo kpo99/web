@@ -11,6 +11,26 @@ var validator = require('../../config/validator');
 var generator = require('../../generator/test');
 var userCtrl = require('../../controllers/user.server.controller');
 
+
+router.put('/',function(req,res){
+    if (req.user){
+        userCtrl.user_update(req)
+            .then(status=>res.json(status))
+            .catch(err => res.status(err[0]).json(err[1]));
+    }
+    else
+        res.status(values.not_authorized).json(jsonStatus.not_authorized);
+});
+router.put('/password',function(req,res){
+    if (req.user){
+        userCtrl.user_changePassword(req)
+            .then(status=>res.json(status))
+            .catch(err => res.status(err[0]).json(err[1]));
+    }
+    else
+        res.status(values.not_authorized).json(jsonStatus.not_authorized);
+});
+
 router.post('/course', function(req, res, next) {
     if (req.user){
         if(req.user.role === 'teacher') {
@@ -116,6 +136,8 @@ router.get('/course/generate',function(req,res){
                                     if(user.group_name && user.study_year) {
                                         if(req.query.lab_id) {
                                             var lab = course.labs.id(req.query.lab_id);
+                                            if(!lab)
+                                                res.status(values.notFound).json(jsonStatus.not_found);
                                             res.contentType('application/msword');
                                             generator(res, lab, course, user, creator);
                                         }

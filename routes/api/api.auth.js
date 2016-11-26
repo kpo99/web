@@ -17,9 +17,12 @@ router.post('/signUp', function(req, res, next) {
     else
         res.status(400).json(jsonStatus.pass_no_match);
 });
-
+router.get('/logOut',function(req,res){
+    req.logout();
+    res.redirect('/auth/signIn');
+});
 router.post('/logIn', passport.authenticate('local',{
-    failureRedirect: '/api/auth/logIn'
+    failureRedirect: '/auth/SignIn'
 }),function(req,res){
     res.redirect('/profile');
 });

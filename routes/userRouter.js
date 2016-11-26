@@ -21,11 +21,29 @@ router.get('/addCourse', function(req, res, next) {
        res.end('not authorized');
 });
 
-router.get('/', function(req, res, next) {
+router.get('/courseDelete', function(req, res, next) {
     res.render('courseDelete');
 });
 
+router.get('/', function(req, res, next) {
+    if (req.user) {
+        res.render('profile');
+    }
+    else
+        res.status(values.not_authorized).json(jsonStatus.not_authorized);
+});
 
+router.get('/updatePassword', function(req, res, next) {
+    if (req.user) {
+        res.render('changePassword');
+    }
+    else
+        res.status(values.not_authorized).json(jsonStatus.not_authorized);
+});
+
+router.get('/update', function(req, res, next) {
+    res.render('userUpdate');
+});
 
 
 

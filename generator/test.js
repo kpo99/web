@@ -61,11 +61,11 @@ module.exports = function(res,lab, course,user,teacher) {
     pObj.addLineBreak();
     pObj.addLineBreak();
     pObj.addLineBreak();
-    pObj.addText('Лабораторна робота № 3', {bold: true, font_face: 'Times New Roman', font_size: 16});
+    pObj.addText('Лабораторна робота № ' + lab.number, {bold: true, font_face: 'Times New Roman', font_size: 16});
     pObj.addLineBreak();
     pObj.addText('з дисципліни "' + course.name + '"', { font_face: 'Times New Roman', font_size: 14});
     pObj.addLineBreak();
-    pObj.addText('тема: "' + lab.name + '"', { font_face: 'Times New Roman', font_size: 14});
+    pObj.addText('тема: "' + lab.theme + '"', { font_face: 'Times New Roman', font_size: 14});
     pObj.addLineBreak();
     pObj.addLineBreak();
     pObj.addLineBreak();
@@ -97,7 +97,7 @@ module.exports = function(res,lab, course,user,teacher) {
         ['студент ' + user.study_year +' курсу', '“____” “____________” ' + course.year + ' р.'],
         ['група ' + user.group_name, 'викладач'],
         [user.surname + ' ' + user.name + ' ' + user.patronymic  , teacher.surname + ' ' + teacher.name + ' ' + teacher.patronymic],
-        ['Варіант - 11', ''],
+        ['Варіант - ' + lab.variant, ''],
     ];
 
 
@@ -132,9 +132,29 @@ module.exports = function(res,lab, course,user,teacher) {
     pObj.addLineBreak();
     pObj.addLineBreak();
     pObj.addLineBreak();
-    pObj.addLineBreak();
-    pObj.addLineBreak();
     pObj.addText('Київ ' + course.year,{font_face: 'Times New Roman', font_size: 14});
+    pObj.addLineBreak();
+    pObj.addLineBreak();
+    pObj.addLineBreak();
+
+    var pObj = docx.createP({align: "center"});
+    pObj.addText('Мета роботи', {bold: true, font_face: 'Times New Roman', font_size: 14});
+
+    var pObj = docx.createP();
+    pObj.addText(lab.aim, {font_face: 'Times New Roman', font_size: 14});
+    pObj.addLineBreak();
+    pObj.addLineBreak();
+
+    var pObj = docx.createP({align: "center"});
+    pObj.addText('Постановка завдання', {bold: true, font_face: 'Times New Roman', font_size: 14});
+
+    var pObj = docx.createP();
+    pObj.addText(lab.task_description, {font_face: 'Times New Roman', font_size: 14});
+    pObj.addLineBreak();
+    pObj.addLineBreak();
+
+
+
 
 
 

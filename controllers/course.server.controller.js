@@ -224,7 +224,7 @@ exports.course_addLab = function (req) {
                     {
                      var lab = new Lab({
                          number: parseInt(req.body.number),
-                         name: req.body.name,
+                         task_description: req.body.task_description,
                          aim: req.body.aim,
                          theme: req.body.theme
                      });
@@ -276,6 +276,8 @@ exports.course_subscribeLab = function (req) {
                             var lab = course.labs.id(req.body.lab_id);
                             if(!lab)
                                 reject([values.notFound, jsonStatus.not_found]);
+                            if(req.body.variant)
+                                lab.variant = parseInt(req.body.variant);
                             if (pCourse.labs.id(req.body.lab_id))
                                 reject([values.forbidden,jsonStatus.subscribe_error]);
                             pCourse.labs.push(lab);
@@ -302,5 +304,17 @@ exports.course_subscribeLab = function (req) {
 
   });
 };
+
+
+
+exports.lab_update = function(req)
+{
+  return new Promise(function(resolve,reject){
+
+  });
+};
+
+
+
 
 

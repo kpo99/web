@@ -5,7 +5,11 @@ var mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
 var minLength = [10,'The value of path `{PATH}` (`{VALUE}`) is shorter than the minimum allowed length ({MINLENGTH}).'];
-var maxLength = [20,'The value of path `{PATH}` (`{VALUE}`) exceeds the maximum allowed length ({MAXLENGTH}).'];
+var descriptionMinLength = [250,'The value of path `{PATH}` (`{VALUE}`) is shorter than the minimum allowed length ({MINLENGTH}).'];
+var descriptionMaxLength = [1000,'The value of path `{PATH}` (`{VALUE}`) is shorter than the minimum allowed length ({MINLENGTH}).'];
+var maxLengthT = [50,'The value of path `{PATH}` (`{VALUE}`) exceeds the maximum allowed length ({MAXLENGTH}).'];
+var maxLengthA = [200,'The value of path `{PATH}` (`{VALUE}`) exceeds the maximum allowed length ({MAXLENGTH}).'];
+
 
 
 
@@ -14,20 +18,25 @@ var LabSchema = new Schema({
         type: Number,
         required: true,
     },
-    name: {
-        type: String,
-        required:true,
-        minlength: minLength
-    },
     theme: {
         type: String,
         required:true,
-        minlength: minLength
+        minlength: minLength,
+        maxLength: maxLengthT
     },
     aim: {
         type: String,
         required:true,
-        minlength: minLength
+        minlength: minLength,
+        maxLength: maxLengthA
+    },
+    task_description: {
+        type: String,
+        required:true,
+        minlength: minLength,
+        minlength: descriptionMinLength,
+        maxLength: descriptionMaxLength
+
     },
     variant: {
         type: Number,
