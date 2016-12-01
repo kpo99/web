@@ -66,3 +66,13 @@ exports.pass_no_match = {
     status: 'error',
     message: 'Passwords don\'t match '
 };
+
+exports.logOut_success = {
+    status: 'success',
+    message: 'Log out successfully '
+};
+
+exports.authorized = {
+    status: 'success',
+    message: 'Authorized'
+};

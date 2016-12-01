@@ -11,20 +11,30 @@ var jsonStatus = require('../../config/status')
 router.post('/signUp', function(req, res, next) {
     if (req.body.password === req.body.passwordConfirm) {
         userCtrl.create(req, res)
-            .then(status => res.json(status))
+            .then(userObj => res.json(userObj))
             .catch(err=>res.json(err));
     }
     else
         res.status(400).json(jsonStatus.pass_no_match);
 });
 router.get('/logOut',function(req,res){
-    req.logout();
-    res.redirect('/auth/signIn');
+    if (req.user) {
+        req.logout();
+        res.json(jsonStatus.logOut_success);
+    }
+    else
+        res.status(401).json(jsonStatus.not_authorized);
 });
-router.post('/logIn', passport.authenticate('local',{
-    failureRedirect: '/auth/SignIn'
-}),function(req,res){
-    res.redirect('/profile');
+router.post('/logIn', passport.authenticate('local'),
+    function(req,res){
+        res.json(req.user);
+});
+
+router.get('/isAuthorized', function(req,res){
+    if (req.user)
+        res.json(jsonStatus.authorized)
+    else
+        res.status(401).json(jsonStatus.not_authorized);
 });
 
 module.exports = router;

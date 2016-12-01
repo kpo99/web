@@ -32,10 +32,10 @@ exports.create = function(req,res){
 
         });
 
-        userEntry.save(function (err) {
+        userEntry.save(function (err, user) {
             if (err)
                 reject(reject([values.internalServerError,err]));
-             resolve(jsonStatus.save_succes);
+             resolve(user);
         });
     });
 };

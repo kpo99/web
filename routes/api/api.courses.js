@@ -11,6 +11,8 @@ var validator = require('../../config/validator');
 
 
 router.get('/',function(req,res){
+
+
     if (req.user){
         if (req.query.size && req.query.offset){
             if (validator.isNumber(req.query.size) && validator.isNumber(req.query.offset)) {
