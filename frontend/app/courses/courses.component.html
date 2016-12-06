@@ -1,0 +1,10 @@
+
+<button mdl-button mdl-button-type="raised" mdl-colored="accent" (click)="onLogOut()">
+    Logout
+</button>
+
+<ul *ngIf ="courses && courses.length">
+    <li *ngFor="let course of courses">
+        {{course.name + ' ' + course.year}}
+    </li>
+</ul>

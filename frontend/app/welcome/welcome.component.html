@@ -1,0 +1,22 @@
+<div class="demo-container" mdl-shadow="2">
+    <mdl-layout >
+        <mdl-layout-content class ="color-scheme--grey">
+            <div class="login-form" >
+                <mdl-card mdl-shadow="2">
+                    <br>
+                    <div align="center">
+                        <mdl-textfield type="text" label="Username"    [(ngModel)]="username" floating-label></mdl-textfield>
+                    </div>
+                    <div align="center">
+                        <mdl-textfield type="password" label="Password"  [(ngModel)]="password" floating-label></mdl-textfield>
+                    </div>
+                    <mdl-card-actions mdl-card-border>
+                        <button mdl-button mdl-button-type="raised" mdl-colored = "primary" (click)="onLogIn()" mdl-ripple>Log In</button>
+                    </mdl-card-actions>
+                </mdl-card>
+            </div>
+            <button mdl-button mdl-button-type="raised" mdl-colored = "primary" (click)="onLogOut()" mdl-ripple>Log Out</button>
+
+        </mdl-layout-content>
+    </mdl-layout>
+</div>

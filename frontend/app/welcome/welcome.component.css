@@ -1,0 +1,20 @@
+.color-scheme--grey {
+    background-color: #e9eaea;
+    color: #3e3e40;
+}
+
+.color-scheme--white {
+    background-color: #FFF;
+    color: #152B39;
+}
+
+.login-form {
+
+    position:absolute;
+    top:15px;
+    right: 10px;
+}
+
+.layout-background {
+    background-image: url("../../pictures/background2.jpg");
+}
