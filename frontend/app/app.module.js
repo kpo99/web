@@ -21,6 +21,8 @@ var courses_component_1 = require('./courses/courses.component');
 var isAuthorized_guard_service_1 = require('./guards/isAuthorized-guard.service');
 var course_service_1 = require("./courses/course.service");
 var user_service_1 = require("./user/user.service");
+var courses_pipe_1 = require("./courses/courses.pipe");
+var settings_component_1 = require('./settings/settings.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -34,14 +36,17 @@ var AppModule = (function () {
                 router_1.RouterModule.forRoot([
                     { path: 'welcome', component: welcome_component_1.WelcomeComponent },
                     { path: '', redirectTo: 'welcome', pathMatch: 'full' },
-                    { path: 'courses', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: courses_component_1.CoursesComponent }
+                    { path: 'courses', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: courses_component_1.CoursesComponent },
+                    { path: 'settings', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: settings_component_1.SettingsComponent }
                 ]),
                 ng2_webstorage_1.Ng2Webstorage
             ],
             declarations: [
                 app_component_1.AppComponent,
                 welcome_component_1.WelcomeComponent,
-                courses_component_1.CoursesComponent
+                courses_component_1.CoursesComponent,
+                courses_pipe_1.CourseFilterPipe,
+                settings_component_1.SettingsComponent
             ],
             providers: [isAuthorized_guard_service_1.IsAuthorizedGuard, course_service_1.CourseService, user_service_1.UserService],
             bootstrap: [app_component_1.AppComponent]

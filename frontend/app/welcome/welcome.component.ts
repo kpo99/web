@@ -3,6 +3,8 @@ import {UserService} from '../user/user.service';
 import {IUser} from "../user/user";
 import {Response} from "@angular/http";
 import {Router} from '@angular/router'
+import {CourseService} from "../courses/course.service";
+import {ICourseBrief} from "../courses/briefCourseInterface";
 
 
 @Component({
@@ -17,7 +19,7 @@ export class  WelcomeComponent implements OnInit
     password : string;
     user : IUser;
 
-    constructor(private _userService: UserService, private _router : Router){
+    constructor(private _userService: UserService, private _router : Router, private _courseService: CourseService){
 
     }
 
@@ -30,6 +32,7 @@ export class  WelcomeComponent implements OnInit
                 this._router.navigate(['/courses']);
             })
             .catch((error) => console.log(JSON.stringify(error)));
+
     }
 
     onLogOut() : void {
@@ -37,6 +40,7 @@ export class  WelcomeComponent implements OnInit
             .then(response => this._router.navigate(['/welcome']))
             .catch((error) => console.log(error));
     }
+
     ngOnInit(): void {
 
     }

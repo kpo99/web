@@ -13,6 +13,8 @@ import {CoursesComponent} from './courses/courses.component';
 import {IsAuthorizedGuard} from './guards/isAuthorized-guard.service'
 import {CourseService} from "./courses/course.service";
 import {UserService} from "./user/user.service";
+import {CourseFilterPipe} from "./courses/courses.pipe";
+import {SettingsComponent} from './settings/settings.component';
 
 @NgModule({
   imports: [
@@ -23,14 +25,17 @@ import {UserService} from "./user/user.service";
       RouterModule.forRoot([
           {path: 'welcome', component: WelcomeComponent },
           {path: '', redirectTo: 'welcome', pathMatch: 'full'},
-          {path: 'courses', canActivate: [IsAuthorizedGuard], component: CoursesComponent}
+          {path: 'courses', canActivate: [IsAuthorizedGuard], component: CoursesComponent},
+          {path: 'settings', canActivate: [IsAuthorizedGuard], component: SettingsComponent}
           ]),
       Ng2Webstorage
   ],
   declarations: [
       AppComponent,
       WelcomeComponent,
-      CoursesComponent
+      CoursesComponent,
+      CourseFilterPipe,
+      SettingsComponent
   ],
   providers: [IsAuthorizedGuard,CourseService, UserService],
   bootstrap: [ AppComponent ]

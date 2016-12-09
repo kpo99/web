@@ -11,10 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var user_service_1 = require('../user/user.service');
 var router_1 = require('@angular/router');
+var course_service_1 = require("../courses/course.service");
 var WelcomeComponent = (function () {
-    function WelcomeComponent(_userService, _router) {
+    function WelcomeComponent(_userService, _router, _courseService) {
         this._userService = _userService;
         this._router = _router;
+        this._courseService = _courseService;
         this.pageTitle = 'Lab Generator';
     }
     WelcomeComponent.prototype.onLogIn = function () {
@@ -41,7 +43,7 @@ var WelcomeComponent = (function () {
             selector: 'welcome-comp',
             templateUrl: 'app/welcome/welcome.component.html',
         }), 
-        __metadata('design:paramtypes', [user_service_1.UserService, router_1.Router])
+        __metadata('design:paramtypes', [user_service_1.UserService, router_1.Router, course_service_1.CourseService])
     ], WelcomeComponent);
     return WelcomeComponent;
 }());

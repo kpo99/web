@@ -17,11 +17,18 @@ var CoursesComponent = (function () {
         this._courseService = _courseService;
         this._userService = _userService;
         this._router = _router;
+        this.findBy = '';
     }
     CoursesComponent.prototype.getCourses = function () {
         var _this = this;
         this._courseService.getCoursesBrief()
-            .subscribe(function (courses) { return _this.courses = courses; }, function (error) { return _this.errorMessage = error; });
+            .subscribe(function (courses) {
+            for (var _i = 0, courses_1 = courses; _i < courses_1.length; _i++) {
+                var course = courses_1[_i];
+                course.course_logo = 'data:image/png;base64,' + course.course_logo;
+            }
+            _this.courses = courses;
+        }, function (error) { return _this.errorMessage = error; });
     };
     CoursesComponent.prototype.onLogOut = function () {
         var _this = this;
@@ -31,7 +38,12 @@ var CoursesComponent = (function () {
         })
             .catch(function (error) { return console.log(JSON.stringify(error)); });
     };
+    CoursesComponent.prototype.onAuth = function () {
+        this._userService.isAuthorized()
+            .then(function (response) { return console.log(JSON.stringify(response)); });
+    };
     CoursesComponent.prototype.ngOnInit = function () {
+        this.getCourses();
     };
     CoursesComponent = __decorate([
         core_1.Component({

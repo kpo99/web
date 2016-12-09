@@ -32,7 +32,7 @@ router.post('/logIn', passport.authenticate('local'),
 
 router.get('/isAuthorized', function(req,res){
     if (req.user)
-        res.json(jsonStatus.authorized)
+        res.status(200).json(jsonStatus.authorized)
     else
         res.status(401).json(jsonStatus.not_authorized);
 });

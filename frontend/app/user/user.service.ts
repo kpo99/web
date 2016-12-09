@@ -11,7 +11,7 @@ import {LocalStorageService} from 'ng2-webstorage';
 @Injectable()
 export class UserService {
 
-    @LocalStorage() public user : IUser;
+     @LocalStorage() public user : IUser;
 
     constructor(private _http: Http){
 
@@ -29,6 +29,11 @@ export class UserService {
             });
     }
 
+    isAuthorized() : Promise<Object>
+    {
+        return this._http.get('/api/auth/isAuthorized').toPromise()
+            .catch(err => console.log(JSON.stringify(err)));
+    }
     signUp(userObj: Object) : Observable<IUser> {
         return this._http.post('/api/auth/signUp',userObj)
             .map((response : Response) => {

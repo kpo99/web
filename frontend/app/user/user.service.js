@@ -30,6 +30,10 @@ var UserService = (function () {
             return user || {};
         });
     };
+    UserService.prototype.isAuthorized = function () {
+        return this._http.get('/api/auth/isAuthorized').toPromise()
+            .catch(function (err) { return console.log(JSON.stringify(err)); });
+    };
     UserService.prototype.signUp = function (userObj) {
         return this._http.post('/api/auth/signUp', userObj)
             .map(function (response) {

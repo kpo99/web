@@ -3,6 +3,11 @@
     color: #3e3e40;
 }
 
+.color-scheme--n {
+    background-color: #c6ddea;
+    color: #3e3e40;
+}
+
 .color-scheme--white {
     background-color: #FFF;
     color: #152B39;
@@ -17,4 +22,19 @@
 
 .layout-background {
     background-image: url("../../pictures/background2.jpg");
+}
+
+.settings-style {
+    position : absolute;
+    width    : 100px;
+    height   : 100px;
+    left     : 50%;
+    top      : 50%;
+    margin-left : -350px; /* half of the width  */
+    margin-top  : -175px; /* half of the height */
+}
+
+.settings-card-style {
+    height: 400px;
+    width: 1000px;
 }

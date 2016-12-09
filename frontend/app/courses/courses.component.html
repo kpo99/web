@@ -1,10 +1,51 @@
+<mdl-layout mdl-layout-fixed-header mdl-layout-fixed-drawer>
+    <mdl-layout-header>
+        <mdl-layout-header-row class ="color-scheme--white">
+            <mdl-textfield type="text" label="Find by name" [(ngModel)]="findBy" style ="width: 220px"></mdl-textfield>
+            <mdl-layout-spacer></mdl-layout-spacer>
+            <button mdl-button  mdl-colored [routerLink]="['/settings']">
+                Settings
+            </button>
+            <button mdl-button  mdl-colored (click) ="onLogOut()">
+                Log out
+            </button>
+            </mdl-layout-header-row>
+    </mdl-layout-header>
+    <mdl-layout-drawer>
+        <mdl-layout-header >
+            <mdl-layout-header-row class ="color-scheme--white">
+                  <mdl-layout-title>Dashboard</mdl-layout-title>
+            </mdl-layout-header-row>
+            </mdl-layout-header>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" [routerLink]="['/welcome']">Welcome</a>
+            <a class="mdl-navigation__link" >Link</a>
+            <a class="mdl-navigation__link" >Link</a>
+        </nav>
+    </mdl-layout-drawer>
+    <mdl-layout-content class ="color-scheme--grey">
+        <div  *ngIf="(courses | courseFilter: findBy) && (courses | courseFilter : findBy).length">
+        <div class="mdl-grid" align = "center" >
+            <div class="mdl-cell mdl-cell--3-col" *ngFor="let course of courses | courseFilter : findBy">
 
-<button mdl-button mdl-button-type="raised" mdl-colored="accent" (click)="onLogOut()">
-    Logout
-</button>
 
-<ul *ngIf ="courses && courses.length">
-    <li *ngFor="let course of courses">
-        {{course.name + ' ' + course.year}}
-    </li>
-</ul>
+                <mdl-card  mdl-shadow="2" style ="width : 220px; height: 280px; " >
+                    <mdl-card-title mdl-card-expand class="color-scheme--white" >
+                        <h6 mdl-card-title-text> {{course.name}}</h6>
+                    </mdl-card-title>
+
+                    <div class="color-scheme--white">
+                        <img [src] ='course.course_logo' height="150" width="150" class="color-scheme--white">
+                    </div>
+                    <mdl-card-actions mdl-card-border>
+                        <button mdl-button mdl-colored mdl-ripple>
+                            Subscribe
+                        </button>
+                    </mdl-card-actions>
+                </mdl-card>
+            </div>
+
+        </div>
+            </div>
+    </mdl-layout-content>
+</mdl-layout>

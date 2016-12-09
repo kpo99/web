@@ -10,20 +10,16 @@ import {ICourseBrief} from './briefCourseInterface';
 @Injectable()
 
 export class CourseService {
-    private _courseUrl = 'http://localhost:3000/api/courses?size=0&offset=0';
+    private _courseUrl = 'http://127.0.0.1:3000/api/courses?size=0&offset=0';
 
     constructor(private _http : Http){
 
     }
 
-    signIn(): Observable<Response> {
-        return this._http.post('http://localhost:3000/api/auth/logIn', {username: 'kpo99', password: '12345'})
-            .catch(this.handleError);
-    }
     getCoursesBrief(): Observable<ICourseBrief[]> {
 
 
-        return this._http.get(this._courseUrl,{ withCredentials: true })
+        return this._http.get(this._courseUrl)
                      .map((response: Response) => <ICourseBrief[]>response.json())
                         .do(data=>console.log('All: ' + JSON.stringify(data)))
                             .catch(this.handleError);

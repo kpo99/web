@@ -14,6 +14,7 @@ import {Router} from "@angular/router";
 export class  CoursesComponent implements OnInit
 {
     courses : ICourseBrief[];
+    findBy : string = '';
     errorMessage: string;
 
     constructor(private _courseService: CourseService, private _userService : UserService, private _router : Router ){
@@ -22,7 +23,12 @@ export class  CoursesComponent implements OnInit
 
     getCourses(): void {
         this._courseService.getCoursesBrief()
-            .subscribe(courses => this.courses = courses,
+            .subscribe(courses => {
+                for (let course of courses){
+                    course.course_logo = 'data:image/png;base64,' + course.course_logo;
+                }
+                this.courses = courses;
+            },
                 error => this.errorMessage = <any>error);
     }
 
@@ -32,12 +38,17 @@ export class  CoursesComponent implements OnInit
                 this._router.navigate(['/welcome']);
             })
             .catch((error) => console.log(JSON.stringify(error)));
+    
+    }
+
+    onAuth(): void {
+        this._userService.isAuthorized()
+            .then(response => console.log(JSON.stringify(response)));
     }
 
 
     ngOnInit(): void{
-
-
+       this.getCourses();
 
     }
 }

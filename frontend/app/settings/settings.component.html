@@ -1,0 +1,55 @@
+<mdl-layout mdl-layout-fixed-header mdl-layout-fixed-drawer>
+    <mdl-layout-header>
+        <mdl-layout-header-row class ="color-scheme--white">
+            <mdl-layout-spacer></mdl-layout-spacer>
+            <button mdl-button  mdl-colored [routerLink]="['/settings']">
+                Settings
+            </button>
+            <button mdl-button  mdl-colored (click) ="onLogOut()">
+                Log out
+            </button>
+        </mdl-layout-header-row>
+    </mdl-layout-header>
+    <mdl-layout-drawer>
+        <mdl-layout-header >
+            <mdl-layout-header-row class ="color-scheme--white">
+                <mdl-layout-title>Settings</mdl-layout-title>
+            </mdl-layout-header-row>
+        </mdl-layout-header>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link color-scheme--grey" [routerLink]="['/settings']">Basic information</a>
+            <a class="mdl-navigation__link" >Change password</a>
+            <a class="mdl-navigation__link" >Delete account</a>
+        </nav>
+    </mdl-layout-drawer>
+    <mdl-layout-content class ="color-scheme--grey">
+                <div class="settings-style">
+                <mdl-card mdl-shadow="2" style="width: 700px; height: 350px">
+                    <br>
+                    <div>
+                        <mdl-textfield type="text" label="Name" style="width: 250px; position: relative; left: 80px;" [(ngModel)]="user.name" floating-label></mdl-textfield>
+                        <mdl-textfield type="text" label="Surname" style="width: 250px; position: absolute; right: 80px;" [(ngModel)]="user.surname" floating-label></mdl-textfield>
+                    </div>
+                    <div>
+                        <mdl-textfield type="text" label="Patronymic" style="width: 250px; position: relative; left: 80px;" [(ngModel)]="user.patronymic" floating-label></mdl-textfield>
+                        <mdl-textfield type="text" label="Username" style="width: 250px; position: absolute; right: 80px;" [(ngModel)]="user.username" floating-label></mdl-textfield>
+                    </div>
+                    <div>
+                        <mdl-textfield type="text" label="Group name" style="width: 250px; position: relative; left: 80px;" [(ngModel)]="user.group_name" floating-label></mdl-textfield>
+                        <mdl-textfield type="text" label="Study year" style="width: 250px; position: absolute; right: 80px;" [(ngModel)]="user.study_year" floating-label></mdl-textfield>
+                    </div>
+                    <div align="center">
+                        <mdl-textfield type="text" label="Email" style="width: 250px;" [(ngModel)]="user.email" floating-label></mdl-textfield>
+                    </div>
+
+                    <mdl-card-actions mdl-card-border align ="center">
+                        <button mdl-button mdl-colored="accent" mdl-button-type="raised" mdl-ripple>
+                            UPDATE INFO
+                        </button>
+                    </mdl-card-actions>
+                </mdl-card>
+                    </div>
+
+
+    </mdl-layout-content>
+</mdl-layout>

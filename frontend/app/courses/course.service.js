@@ -17,14 +17,10 @@ require('rxjs/add/operator/catch');
 var CourseService = (function () {
     function CourseService(_http) {
         this._http = _http;
-        this._courseUrl = 'http://localhost:3000/api/courses?size=0&offset=0';
+        this._courseUrl = 'http://127.0.0.1:3000/api/courses?size=0&offset=0';
     }
-    CourseService.prototype.signIn = function () {
-        return this._http.post('http://localhost:3000/api/auth/logIn', { username: 'kpo99', password: '12345' })
-            .catch(this.handleError);
-    };
     CourseService.prototype.getCoursesBrief = function () {
-        return this._http.get(this._courseUrl, { withCredentials: true })
+        return this._http.get(this._courseUrl)
             .map(function (response) { return response.json(); })
             .do(function (data) { return console.log('All: ' + JSON.stringify(data)); })
             .catch(this.handleError);
