@@ -15,6 +15,8 @@ import {CourseService} from "./courses/course.service";
 import {UserService} from "./user/user.service";
 import {CourseFilterPipe} from "./courses/courses.pipe";
 import {SettingsComponent} from './settings/settings.component';
+import {SettingsPasswordComponent} from "./settings/settings.password.component";
+import {PagerService} from "./pagerService/pager.service";
 
 @NgModule({
   imports: [
@@ -26,7 +28,8 @@ import {SettingsComponent} from './settings/settings.component';
           {path: 'welcome', component: WelcomeComponent },
           {path: '', redirectTo: 'welcome', pathMatch: 'full'},
           {path: 'courses', canActivate: [IsAuthorizedGuard], component: CoursesComponent},
-          {path: 'settings', canActivate: [IsAuthorizedGuard], component: SettingsComponent}
+          {path: 'settings', canActivate: [IsAuthorizedGuard], component: SettingsComponent},
+          {path: 'settings/password', canActivate: [IsAuthorizedGuard], component: SettingsPasswordComponent},
           ]),
       Ng2Webstorage
   ],
@@ -35,9 +38,10 @@ import {SettingsComponent} from './settings/settings.component';
       WelcomeComponent,
       CoursesComponent,
       CourseFilterPipe,
-      SettingsComponent
+      SettingsComponent,
+      SettingsPasswordComponent
   ],
-  providers: [IsAuthorizedGuard,CourseService, UserService],
+  providers: [IsAuthorizedGuard,CourseService, UserService, PagerService],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {

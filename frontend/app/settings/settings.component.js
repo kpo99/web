@@ -28,6 +28,17 @@ var SettingsComponent = (function () {
         })
             .catch(function (error) { return console.log(JSON.stringify(error)); });
     };
+    SettingsComponent.prototype.onUpdate = function () {
+        this._userService.update(this.user)
+            .then(function (result) { return console.log(JSON.stringify(result)); })
+            .catch(function (err) { return console.log(JSON.stringify(err)); });
+    };
+    SettingsComponent.prototype.isDisable = function () {
+        return ((this.user.name.length === 0) || (this.user.surname.length === 0) ||
+            (this.user.username.length === 0) || (this.user.patronymic.length === 0) ||
+            (this.user.email.length === 0) || (this.user.group_name.length === 0) ||
+            (this.user.study_year === null) || isNaN(this.user.study_year) || (this.user.study_year < 1) || (this.user.study_year > 6));
+    };
     __decorate([
         ng2_webstorage_1.LocalStorage(), 
         __metadata('design:type', Object)

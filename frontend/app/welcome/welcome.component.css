@@ -34,6 +34,17 @@
     margin-top  : -175px; /* half of the height */
 }
 
+.settings-style-pass{
+    position : absolute;
+    width    : 100px;
+    height   : 100px;
+    left     : 50%;
+    top      : 50%;
+    margin-left : -350px; /* half of the width  */
+    margin-top  : -200px; /* half of the height */
+}
+
+
 .settings-card-style {
     height: 400px;
     width: 1000px;

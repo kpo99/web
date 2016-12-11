@@ -23,6 +23,8 @@ var course_service_1 = require("./courses/course.service");
 var user_service_1 = require("./user/user.service");
 var courses_pipe_1 = require("./courses/courses.pipe");
 var settings_component_1 = require('./settings/settings.component');
+var settings_password_component_1 = require("./settings/settings.password.component");
+var pager_service_1 = require("./pagerService/pager.service");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -37,7 +39,8 @@ var AppModule = (function () {
                     { path: 'welcome', component: welcome_component_1.WelcomeComponent },
                     { path: '', redirectTo: 'welcome', pathMatch: 'full' },
                     { path: 'courses', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: courses_component_1.CoursesComponent },
-                    { path: 'settings', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: settings_component_1.SettingsComponent }
+                    { path: 'settings', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: settings_component_1.SettingsComponent },
+                    { path: 'settings/password', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: settings_password_component_1.SettingsPasswordComponent },
                 ]),
                 ng2_webstorage_1.Ng2Webstorage
             ],
@@ -46,9 +49,10 @@ var AppModule = (function () {
                 welcome_component_1.WelcomeComponent,
                 courses_component_1.CoursesComponent,
                 courses_pipe_1.CourseFilterPipe,
-                settings_component_1.SettingsComponent
+                settings_component_1.SettingsComponent,
+                settings_password_component_1.SettingsPasswordComponent
             ],
-            providers: [isAuthorized_guard_service_1.IsAuthorizedGuard, course_service_1.CourseService, user_service_1.UserService],
+            providers: [isAuthorized_guard_service_1.IsAuthorizedGuard, course_service_1.CourseService, user_service_1.UserService, pager_service_1.PagerService],
             bootstrap: [app_component_1.AppComponent]
         }), 
         __metadata('design:paramtypes', [])

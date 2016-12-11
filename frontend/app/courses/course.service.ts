@@ -21,7 +21,6 @@ export class CourseService {
 
         return this._http.get(this._courseUrl)
                      .map((response: Response) => <ICourseBrief[]>response.json())
-                        .do(data=>console.log('All: ' + JSON.stringify(data)))
                             .catch(this.handleError);
     }
 

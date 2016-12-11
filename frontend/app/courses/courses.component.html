@@ -18,15 +18,15 @@
             </mdl-layout-header-row>
             </mdl-layout-header>
         <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" [routerLink]="['/welcome']">Welcome</a>
-            <a class="mdl-navigation__link" >Link</a>
+            <a class="mdl-navigation__link  color-scheme--grey" [routerLink]="['/courses']">All Courses</a>
+            <a class="mdl-navigation__link" >My courses</a>
             <a class="mdl-navigation__link" >Link</a>
         </nav>
     </mdl-layout-drawer>
     <mdl-layout-content class ="color-scheme--grey">
-        <div  *ngIf="(courses | courseFilter: findBy) && (courses | courseFilter : findBy).length">
+       <div  *ngIf="(courses | courseFilter: findBy) && (courses | courseFilter : findBy).length">
         <div class="mdl-grid" align = "center" >
-            <div class="mdl-cell mdl-cell--3-col" *ngFor="let course of courses | courseFilter : findBy">
+            <div class="mdl-cell mdl-cell--3-col" *ngFor="let course of pagedItems | courseFilter : findBy">
 
 
                 <mdl-card  mdl-shadow="2" style ="width : 220px; height: 280px; " >
@@ -47,5 +47,26 @@
 
         </div>
             </div>
+
+
+        <!-- pager -->
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+            <li [ngClass]="{disabled:pager.currentPage === 1}">
+                <a (click)="setPage(1)">First</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === 1}">
+                <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+            </li>
+            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                <a (click)="setPage(page)">{{page}}</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a (click)="setPage(pager.currentPage + 1)">Next</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a (click)="setPage(pager.totalPages)">Last</a>
+            </li>
+        </ul>
+
     </mdl-layout-content>
 </mdl-layout>

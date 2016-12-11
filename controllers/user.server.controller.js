@@ -62,18 +62,18 @@ exports.user_update = function(req){
         if (req.user){
             user_getById(req.user._id)
                 .then(user => {
-                    if (req.query.name)
-                        user.name = req.query.name;
-                    if(req.query.surname)
-                        user.surname = req.query.surname;
-                    if (req.query.patronymic)
-                        user.patronymic = req.query.patronymic;
-                    if (req.query.email)
-                        user.email = req.query.email;
-                    if (req.query.group_name)
-                        user.group_name = req.query.group_name;
-                    if (req.query.study_year)
-                        user.study_year = parseInt(req.query.study_year);
+                    if (req.body.name)
+                        user.name = req.body.name;
+                    if(req.body.surname)
+                        user.surname = req.body.surname;
+                    if (req.body.patronymic)
+                        user.patronymic = req.body.patronymic;
+                    if (req.body.email)
+                        user.email = req.body.email;
+                    if (req.body.group_name)
+                        user.group_name = req.body.group_name;
+                    if (req.body.study_year)
+                        user.study_year = parseInt(req.body.study_year);
                     user.save(function (err) {
                        if (err)
                            reject([values.internalServerError,err]);

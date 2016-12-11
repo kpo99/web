@@ -12,11 +12,14 @@ var core_1 = require('@angular/core');
 var course_service_1 = require("./course.service");
 var user_service_1 = require("../user/user.service");
 var router_1 = require("@angular/router");
+var pager_service_1 = require("../pagerService/pager.service");
 var CoursesComponent = (function () {
-    function CoursesComponent(_courseService, _userService, _router) {
+    function CoursesComponent(_courseService, _userService, _router, pagerService) {
         this._courseService = _courseService;
         this._userService = _userService;
         this._router = _router;
+        this.pagerService = pagerService;
+        this.pager = {};
         this.findBy = '';
     }
     CoursesComponent.prototype.getCourses = function () {
@@ -28,6 +31,7 @@ var CoursesComponent = (function () {
                 course.course_logo = 'data:image/png;base64,' + course.course_logo;
             }
             _this.courses = courses;
+            _this.setPage(1);
         }, function (error) { return _this.errorMessage = error; });
     };
     CoursesComponent.prototype.onLogOut = function () {
@@ -45,12 +49,21 @@ var CoursesComponent = (function () {
     CoursesComponent.prototype.ngOnInit = function () {
         this.getCourses();
     };
+    CoursesComponent.prototype.setPage = function (page) {
+        if (page < 1 || page > this.pager.totalPages) {
+            return;
+        }
+        // get pager object from service
+        this.pager = this.pagerService.getPager(this.courses.length, page);
+        // get current page of items
+        this.pagedItems = this.courses.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    };
     CoursesComponent = __decorate([
         core_1.Component({
             selector: 'course-comp',
             templateUrl: 'app/courses/courses.component.html',
         }), 
-        __metadata('design:paramtypes', [course_service_1.CourseService, user_service_1.UserService, router_1.Router])
+        __metadata('design:paramtypes', [course_service_1.CourseService, user_service_1.UserService, router_1.Router, pager_service_1.PagerService])
     ], CoursesComponent);
     return CoursesComponent;
 }());

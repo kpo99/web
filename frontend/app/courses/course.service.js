@@ -22,7 +22,6 @@ var CourseService = (function () {
     CourseService.prototype.getCoursesBrief = function () {
         return this._http.get(this._courseUrl)
             .map(function (response) { return response.json(); })
-            .do(function (data) { return console.log('All: ' + JSON.stringify(data)); })
             .catch(this.handleError);
     };
     CourseService.prototype.handleError = function (error) {

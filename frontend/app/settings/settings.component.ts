@@ -27,6 +27,20 @@ export class SettingsComponent implements OnInit {
             .catch((error) => console.log(JSON.stringify(error)));
     }
 
+    onUpdate() : void {
+        this._userService.update(this.user)
+            .then(result => console.log(JSON.stringify(result)))
+            .catch(err => console.log(JSON.stringify(err)));
+    }
+
+    isDisable() : boolean{
+         return ( (this.user.name.length === 0) || (this.user.surname.length === 0) ||
+                (this.user.username.length === 0) || (this.user.patronymic.length === 0) ||
+                (this.user.email.length === 0) || (this.user.group_name.length === 0)  ||
+                (this.user.study_year === null) || isNaN(this.user.study_year) || (this.user.study_year < 1) || (this.user.study_year > 6) );
+
+    }
+
 
 
 }

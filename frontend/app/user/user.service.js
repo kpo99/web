@@ -17,6 +17,7 @@ var ng2_webstorage_1 = require('ng2-webstorage');
 var UserService = (function () {
     function UserService(_http) {
         this._http = _http;
+        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
     }
     UserService.prototype.logIn = function (username, password) {
         var _this = this;
@@ -46,6 +47,15 @@ var UserService = (function () {
         return this._http.get('/api/auth/logOut')
             .toPromise();
         //.then(res => res.json() || {});
+    };
+    UserService.prototype.update = function (user) {
+        var _this = this;
+        return this._http.put('/api/user/', JSON.stringify(user), { headers: this.headers })
+            .toPromise()
+            .then(function (result) {
+            _this.user = user;
+            return result.json();
+        });
     };
     __decorate([
         ng2_webstorage_1.LocalStorage(), 

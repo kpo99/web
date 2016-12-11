@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import  {Http,Response} from '@angular/http';
+import  {Http, Response, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
@@ -12,6 +12,7 @@ import {LocalStorageService} from 'ng2-webstorage';
 export class UserService {
 
      @LocalStorage() public user : IUser;
+    private headers = new Headers({'Content-Type': 'application/json'});
 
     constructor(private _http: Http){
 
@@ -48,6 +49,15 @@ export class UserService {
             .toPromise();
             //.then(res => res.json() || {});
             
+    }
+
+    update(user : IUser): Promise<Response> {
+        return this._http.put('/api/user/', JSON.stringify(user), {headers: this.headers})
+            .toPromise()
+            .then(result => {
+                this.user = user;
+                return result.json();
+            });
     }
 
 
