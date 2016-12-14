@@ -17,20 +17,30 @@ import {CourseFilterPipe} from "./courses/courses.pipe";
 import {SettingsComponent} from './settings/settings.component';
 import {SettingsPasswordComponent} from "./settings/settings.password.component";
 import {PagerService} from "./pagerService/pager.service";
+import {UserCoursesComponent} from "./courses/courses.user.component";
+import {CourseDetailedComponent} from "./courseDetailed/course.detailed.component";
+import {ImageUploadModule} from "ng2-imageupload";
 
 @NgModule({
   imports: [
       BrowserModule,
       MdlModule,
       HttpModule,
-      FormsModule,
+      FormsModule,s
+      ImageUploadModule,
       RouterModule.forRoot([
           {path: 'welcome', component: WelcomeComponent },
           {path: '', redirectTo: 'welcome', pathMatch: 'full'},
           {path: 'courses', canActivate: [IsAuthorizedGuard], component: CoursesComponent},
+          {path: 'course/:id', canActivate: [IsAuthorizedGuard], component: CourseDetailedComponent},
+          {path: 'courses/my', canActivate: [IsAuthorizedGuard], component: UserCoursesComponent},
           {path: 'settings', canActivate: [IsAuthorizedGuard], component: SettingsComponent},
           {path: 'settings/password', canActivate: [IsAuthorizedGuard], component: SettingsPasswordComponent},
           ]),
+      RouterModule.forChild([
+          {path: 'welcome', component: WelcomeComponent },
+
+      ]),
       Ng2Webstorage
   ],
   declarations: [
@@ -39,7 +49,9 @@ import {PagerService} from "./pagerService/pager.service";
       CoursesComponent,
       CourseFilterPipe,
       SettingsComponent,
-      SettingsPasswordComponent
+      SettingsPasswordComponent,
+      UserCoursesComponent,
+      CourseDetailedComponent
   ],
   providers: [IsAuthorizedGuard,CourseService, UserService, PagerService],
   bootstrap: [ AppComponent ]

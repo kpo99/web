@@ -48,7 +48,7 @@ exports.course_delete = function(req,where){
                     if (err)
                         reject([values.internalServerError, err]);
                     if(course)
-                        resolve(jsonStatus.delete_succes);
+                        resolve(course);
                     else
                         reject([values.badRequest,jsonStatus.not_deleted]);
                 });
@@ -86,33 +86,42 @@ exports.course_subscribe = function(req){
             if (req.user.role === 'user'){
                 if(!req.body.id)
                     reject([values.unprocessableEntity,jsonStatus.wrong_body]);
-                Course.findOne({global_id: req.body.id,property: 'private'}, function(err,course){
-                    if(err)
-                        reject([values.internalServerError,err]);
-                    if(course)
-                        reject([values.forbidden,jsonStatus.subscribe_error]);
-                });
-                Course.findOne({_id: req.body.id, property: 'public'},function(err,course){
-                    if (err)
-                        reject([values.internalServerError,err]);
-                    if(course) {
-                        course.global_id = course._id;
-                        course._id = mongoose.Types.ObjectId();
-                        course.isNew = true;
-                        course.user_id = req.user._id;
-                        course.property = 'private';
+                return new Promise(function (res,rej) {
+                    Course.findOne({global_id: req.body.id,property: 'private',user_id: req.user._id}, function(err,course){
+                        if(err)
+                            rej([values.internalServerError,err]);
+                        if(course)
+                            rej([values.forbidden,jsonStatus.subscribe_error]);
+                        else
+                            res();
+                    });
+                })
+                    .then(() => {
+                        Course.findOne({_id: req.body.id, property: 'public'},function(err,course){
+                            if (err)
+                                reject([values.internalServerError,err]);
+                            if(course) {
+                                course.global_id = course._id;
+                                course._id = mongoose.Types.ObjectId();
+                                course.isNew = true;
+                                course.user_id = req.user._id;
+                                course.property = 'private';
 
-                        course.save(function (error, newCourse) {
-                            if (error)
-                                reject([values.internalServerError, error]);
-                            resolve(jsonStatus.save_succes);
+                                course.save(function (error, newCourse) {
+                                    if (error)
+                                        reject([values.internalServerError, error]);
+                                    resolve(jsonStatus.save_succes);
+
+                                });
+                            }
+                            else
+                                reject([values.notFound,jsonStatus.not_found]);
 
                         });
-                    }
-                    else
-                        reject([values.notFound,jsonStatus.not_found]);
+                    })
+                    .catch(err => reject(err));
 
-                });
+
             }
             else
                 reject([values.not_authorized,jsonStatus.inappropriate_role]);
@@ -175,6 +184,7 @@ exports.course_update_teacher = function (req) {
 exports.course_getById = function(req){
     return new Promise(function(resolve,reject){
         if(req.user){
+
             if(!req.query.course_id)
                 reject([values.unprocessableEntity,jsonStatus.wrong_body]);
             let where = {};

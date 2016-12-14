@@ -17,12 +17,33 @@ require('rxjs/add/operator/catch');
 var CourseService = (function () {
     function CourseService(_http) {
         this._http = _http;
-        this._courseUrl = 'http://127.0.0.1:3000/api/courses?size=0&offset=0';
+        //private _courseUrl = 'http://127.0.0.1:3000/api/courses?size=0&offset=0';
+        this.courseUrl = 'http://127.0.0.1:3000/api/user/course';
     }
-    CourseService.prototype.getCoursesBrief = function () {
-        return this._http.get(this._courseUrl)
+    CourseService.prototype.getCoursesBrief = function (_courseUrl) {
+        return this._http.get(_courseUrl)
             .map(function (response) { return response.json(); })
             .catch(this.handleError);
+    };
+    CourseService.prototype.courseSubscribe = function (id) {
+        return this._http.post(this.courseUrl, { id: id })
+            .toPromise();
+    };
+    CourseService.prototype.courseView = function (course_id) {
+        var params = new http_1.URLSearchParams();
+        params.set('course_id', course_id);
+        return this._http.get(this.courseUrl, { search: params })
+            .toPromise()
+            .then(function (response) { return response.json() || {}; });
+    };
+    CourseService.prototype.courseDelete = function (course_id) {
+        var delObj = {
+            id: ''
+        };
+        delObj.id = course_id;
+        return this._http.delete(this.courseUrl, { body: delObj })
+            .toPromise()
+            .then(function (response) { return response.json() || {}; });
     };
     CourseService.prototype.handleError = function (error) {
         console.error(error);

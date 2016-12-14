@@ -5,7 +5,7 @@
                 <mdl-card mdl-shadow="2">
                     <br>
                     <div align="center">
-                        <mdl-textfield type="text" label="Username"    [(ngModel)]="username" floating-label></mdl-textfield>
+                        <mdl-textfield type="text" label="Username"    [(ngModel)]="username" floating-label autofocus></mdl-textfield>
                     </div>
                     <div align="center">
                         <mdl-textfield type="password" label="Password"  [(ngModel)]="password" floating-label></mdl-textfield>
@@ -13,6 +13,7 @@
                     <mdl-card-actions mdl-card-border>
                         <button mdl-button mdl-button-type="raised" mdl-colored = "primary" (click)="onLogIn()" mdl-ripple>Log In</button>
                     </mdl-card-actions>
+
                 </mdl-card>
             </div>
 

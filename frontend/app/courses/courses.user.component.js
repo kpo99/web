@@ -13,8 +13,8 @@ var course_service_1 = require("./course.service");
 var user_service_1 = require("../user/user.service");
 var router_1 = require("@angular/router");
 var pager_service_1 = require("../pagerService/pager.service");
-var CoursesComponent = (function () {
-    function CoursesComponent(_courseService, _userService, _router, pagerService) {
+var UserCoursesComponent = (function () {
+    function UserCoursesComponent(_courseService, _userService, _router, pagerService) {
         this._courseService = _courseService;
         this._userService = _userService;
         this._router = _router;
@@ -23,21 +23,20 @@ var CoursesComponent = (function () {
         this.findBy = '';
         this.curr_page = 1;
     }
-    CoursesComponent.prototype.getCourses = function () {
+    UserCoursesComponent.prototype.getCourses = function () {
         var _this = this;
-        this._courseService.getCoursesBrief('http://127.0.0.1:3000/api/courses?size=0&offset=0')
+        this._courseService.getCoursesBrief('http://127.0.0.1:3000/api/user/course?size=0&offset=0')
             .subscribe(function (courses) {
             for (var _i = 0, courses_1 = courses; _i < courses_1.length; _i++) {
                 var course = courses_1[_i];
                 course.course_logo = 'data:image/png;base64,' + course.course_logo;
-                console.log(JSON.stringify(course.status));
             }
             _this.courses = courses;
             _this.courses_m = courses;
             _this.setPage(1);
         }, function (error) { return _this.errorMessage = error; });
     };
-    CoursesComponent.prototype.onLogOut = function () {
+    UserCoursesComponent.prototype.onLogOut = function () {
         var _this = this;
         this._userService.logOut()
             .then(function (response) {
@@ -45,14 +44,29 @@ var CoursesComponent = (function () {
         })
             .catch(function (error) { return console.log(JSON.stringify(error)); });
     };
-    CoursesComponent.prototype.onAuth = function () {
+    UserCoursesComponent.prototype.onAuth = function () {
         this._userService.isAuthorized()
             .then(function (response) { return console.log(JSON.stringify(response)); });
     };
-    CoursesComponent.prototype.ngOnInit = function () {
+    UserCoursesComponent.prototype.ngOnInit = function () {
         this.getCourses();
     };
-    CoursesComponent.prototype.ngDoCheck = function () {
+    UserCoursesComponent.prototype.courseView = function (course_id) {
+        this._courseService.courseView(course_id)
+            .catch(function (err) { return JSON.stringify(err); });
+    };
+    UserCoursesComponent.prototype.onCourseDelete = function (course_id) {
+        var _this = this;
+        this._courseService.courseDelete(course_id)
+            .then(function (course) {
+            console.log(course._id);
+            _this.courses = _this.courses.filter(function (el) {
+                return el._id !== course._id;
+            });
+        })
+            .catch(function (err) { return JSON.stringify(err); });
+    };
+    UserCoursesComponent.prototype.ngDoCheck = function () {
         var _this = this;
         this.findBy = this.findBy ? this.findBy.toLocaleLowerCase() : null;
         this.courses_m = this.findBy ? this.courses.filter(function (course) {
@@ -61,12 +75,7 @@ var CoursesComponent = (function () {
         if (this.courses_m)
             this.setPage(this.curr_page);
     };
-    CoursesComponent.prototype.onSubscribe = function (id) {
-        this._courseService.courseSubscribe(id)
-            .then(function (result) { return console.log(JSON.stringify(result)); })
-            .catch(function (err) { return JSON.stringify(err); });
-    };
-    CoursesComponent.prototype.setPage = function (page) {
+    UserCoursesComponent.prototype.setPage = function (page) {
         if (page < 1 || page > this.pager.totalPages) {
             return;
         }
@@ -82,14 +91,13 @@ var CoursesComponent = (function () {
         // get current page of items
         this.pagedItems = this.courses_m.slice(this.pager.startIndex, this.pager.endIndex + 1);
     };
-    CoursesComponent = __decorate([
+    UserCoursesComponent = __decorate([
         core_1.Component({
-            selector: 'course-comp',
-            templateUrl: 'app/courses/courses.component.html',
+            templateUrl: 'app/courses/courses.user.component.html',
         }), 
         __metadata('design:paramtypes', [course_service_1.CourseService, user_service_1.UserService, router_1.Router, pager_service_1.PagerService])
-    ], CoursesComponent);
-    return CoursesComponent;
+    ], UserCoursesComponent);
+    return UserCoursesComponent;
 }());
-exports.CoursesComponent = CoursesComponent;
-//# sourceMappingURL=courses.component.js.map
+exports.UserCoursesComponent = UserCoursesComponent;
+//# sourceMappingURL=courses.user.component.js.map

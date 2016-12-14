@@ -26,7 +26,6 @@ var UserService = (function () {
             .then(function (res) {
             var user = res.json();
             user.password = null;
-            user.role = null;
             _this.user = user;
             return user || {};
         });

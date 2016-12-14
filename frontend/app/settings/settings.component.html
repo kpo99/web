@@ -1,19 +1,18 @@
 <mdl-layout mdl-layout-fixed-header mdl-layout-fixed-drawer>
-    <mdl-layout-header [routerLink]="['/courses']">
-        <mdl-layout-header-row class ="color-scheme--white">
+    <mdl-layout-header  mdl-shadow="6">
+        <mdl-layout-header-row class ="header-panel-color">
             <mdl-layout-spacer></mdl-layout-spacer>
-            <button mdl-button  mdl-colored [routerLink]="['/settings']">
-                Settings
-            </button>
-            <button mdl-button  mdl-colored (click) ="onLogOut()">
-                Log out
-            </button>
+
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" [routerLink]="['/settings']" align="center" mdl-ripple>Settings</a>
+                <a class="mdl-navigation__link"   (click)="onLogOut()" align="center"> Log out</a>
+            </nav>
         </mdl-layout-header-row>
     </mdl-layout-header>
     <mdl-layout-drawer>
         <mdl-layout-header >
-            <mdl-layout-header-row class ="color-scheme--white">
-                <mdl-layout-title>Settings</mdl-layout-title>
+            <mdl-layout-header-row class ="header-panel-color">
+                <mdl-layout-title class ="color-scheme--white-c">Settings</mdl-layout-title>
             </mdl-layout-header-row>
         </mdl-layout-header>
         <nav class="mdl-navigation">
@@ -23,8 +22,8 @@
         </nav>
     </mdl-layout-drawer>
     <mdl-layout-content class ="color-scheme--grey">
-                <div class="settings-style">
-                <mdl-card mdl-shadow="2" style="width: 700px; height: 350px">
+                <div class="settings-style" *ngIf ="user">
+                <mdl-card mdl-shadow="6" style="width: 700px; height: 350px">
                     <br>
                     <div>
                         <mdl-textfield type="text" required label="Name" style="width: 250px; position: relative; left: 80px;" [(ngModel)]="user.name" floating-label></mdl-textfield>
@@ -34,13 +33,18 @@
                         <mdl-textfield type="text" required label="Patronymic" style="width: 250px; position: relative; left: 80px;" [(ngModel)]="user.patronymic" floating-label></mdl-textfield>
                         <mdl-textfield type="text" required label="Email"  style="width: 250px; position: absolute; right: 80px;" [(ngModel)]="user.email" floating-label></mdl-textfield>
                     </div>
-                    <div>
+                    <div *ngIf = "_userService.user.role === 'user'">
                         <mdl-textfield type="text" required label="Group name" style="width: 250px; position: relative; left: 80px;" [(ngModel)]="user.group_name" floating-label></mdl-textfield>
                         <mdl-textfield type="number" required min="1" max="6" error-msg="Invalid value, only 1-6!" label="Study year" style="width: 250px; position: absolute; right: 80px;" [(ngModel)]="user.study_year" floating-label></mdl-textfield>
                     </div>
                     <div align="center">
 
                         <mdl-textfield type="text" required disabled label="Username"  style="width: 200px;" [(ngModel)]="user.username" floating-label></mdl-textfield>
+                    </div>
+                    <div *ngIf="_userService.user.role !== 'user'">
+                        <br>
+                        <br>
+                        <br>
                     </div>
 
                     <mdl-card-actions mdl-card-border align ="center">

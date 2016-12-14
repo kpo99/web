@@ -6,14 +6,13 @@ import {Router} from "@angular/router";
 import {PagerService} from "../pagerService/pager.service";
 
 @Component({
-    selector: 'course-comp',
-    templateUrl: 'app/courses/courses.component.html',
+    templateUrl: 'app/courses/courses.user.component.html',
 
-    
+
 
 })
 
-export class  CoursesComponent implements OnInit, DoCheck
+export class  UserCoursesComponent implements OnInit, DoCheck
 {
     courses : ICourseBrief[];
     courses_m : ICourseBrief[];
@@ -29,17 +28,15 @@ export class  CoursesComponent implements OnInit, DoCheck
     }
 
     getCourses(): void {
-        this._courseService.getCoursesBrief('http://127.0.0.1:3000/api/courses?size=0&offset=0')
+        this._courseService.getCoursesBrief('http://127.0.0.1:3000/api/user/course?size=0&offset=0')
             .subscribe(courses => {
-                    for (let course of courses) {
+                    for (let course of courses){
                         course.course_logo = 'data:image/png;base64,' + course.course_logo;
-                        console.log(JSON.stringify(course.status));
                     }
                     this.courses = courses;
                     this.courses_m = courses;
                     this.setPage(1);
-                    
-            },
+                },
                 error => this.errorMessage = <any>error);
     }
 
@@ -49,7 +46,7 @@ export class  CoursesComponent implements OnInit, DoCheck
                 this._router.navigate(['/welcome']);
             })
             .catch((error) => console.log(JSON.stringify(error)));
-    
+
     }
 
     onAuth(): void {
@@ -59,10 +56,27 @@ export class  CoursesComponent implements OnInit, DoCheck
 
 
     ngOnInit(): void{
-       this.getCourses();
+        this.getCourses();
 
 
     }
+
+    courseView(course_id : string) : void {
+        this._courseService.courseView(course_id)
+            .catch(err => JSON.stringify(err));
+    }
+
+    onCourseDelete(course_id : string) : void {
+        this._courseService.courseDelete(course_id)
+            .then(course => {
+                console.log(course._id);
+                this.courses = this.courses.filter(function (el) {
+                   return el._id !== course._id;
+                });
+            })
+            .catch(err => JSON.stringify(err));
+    }
+
 
     ngDoCheck() : void {
         this.findBy = this.findBy ? this.findBy.toLocaleLowerCase() : null;
@@ -73,13 +87,6 @@ export class  CoursesComponent implements OnInit, DoCheck
 
     }
 
-    onSubscribe(id : string) : void {
-        this._courseService.courseSubscribe(id)
-            .then(result => console.log(JSON.stringify(result)))
-            .catch(err => JSON.stringify(err));
-    }
-
-
     setPage(page: number) {
         if (page < 1 || page > this.pager.totalPages) {
             return;
@@ -89,11 +96,12 @@ export class  CoursesComponent implements OnInit, DoCheck
         var len = this.courses_m.length;
         if (page >  Math.ceil(len  / 8))
             page = 1;
-
         if (len === 0)
             len = 1;
         this.curr_page = page;
+
         this.pager = this.pagerService.getPager(len, page);
+
         // get current page of items
         this.pagedItems = this.courses_m.slice(this.pager.startIndex, this.pager.endIndex + 1);
     }

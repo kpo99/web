@@ -25,6 +25,9 @@ var courses_pipe_1 = require("./courses/courses.pipe");
 var settings_component_1 = require('./settings/settings.component');
 var settings_password_component_1 = require("./settings/settings.password.component");
 var pager_service_1 = require("./pagerService/pager.service");
+var courses_user_component_1 = require("./courses/courses.user.component");
+var course_detailed_component_1 = require("./courseDetailed/course.detailed.component");
+var ng2_imageupload_1 = require("ng2-imageupload");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -34,13 +37,19 @@ var AppModule = (function () {
                 platform_browser_1.BrowserModule,
                 angular2_mdl_1.MdlModule,
                 http_1.HttpModule,
-                forms_1.FormsModule,
+                forms_1.FormsModule, s,
+                ng2_imageupload_1.ImageUploadModule,
                 router_1.RouterModule.forRoot([
                     { path: 'welcome', component: welcome_component_1.WelcomeComponent },
                     { path: '', redirectTo: 'welcome', pathMatch: 'full' },
                     { path: 'courses', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: courses_component_1.CoursesComponent },
+                    { path: 'course/:id', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: course_detailed_component_1.CourseDetailedComponent },
+                    { path: 'courses/my', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: courses_user_component_1.UserCoursesComponent },
                     { path: 'settings', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: settings_component_1.SettingsComponent },
                     { path: 'settings/password', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: settings_password_component_1.SettingsPasswordComponent },
+                ]),
+                router_1.RouterModule.forChild([
+                    { path: 'welcome', component: welcome_component_1.WelcomeComponent },
                 ]),
                 ng2_webstorage_1.Ng2Webstorage
             ],
@@ -50,7 +59,9 @@ var AppModule = (function () {
                 courses_component_1.CoursesComponent,
                 courses_pipe_1.CourseFilterPipe,
                 settings_component_1.SettingsComponent,
-                settings_password_component_1.SettingsPasswordComponent
+                settings_password_component_1.SettingsPasswordComponent,
+                courses_user_component_1.UserCoursesComponent,
+                course_detailed_component_1.CourseDetailedComponent
             ],
             providers: [isAuthorized_guard_service_1.IsAuthorizedGuard, course_service_1.CourseService, user_service_1.UserService, pager_service_1.PagerService],
             bootstrap: [app_component_1.AppComponent]

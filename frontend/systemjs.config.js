@@ -14,6 +14,7 @@
       app: 'app',
       'angular2-mdl': 'npm:angular2-mdl/bundle/angular2-mdl.js',
       'ng2-webstorage': 'node_modules/ng2-webstorage',
+      'ng2-imageupload': 'node_modules/ng2-imageupload',
       // angular bundles
       '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
       '@angular/common': 'npm:@angular/common/bundles/common.umd.js',
@@ -36,7 +37,11 @@
       rxjs: {
         defaultExtension: 'js'
       },
-      'ng2-webstorage': {main: 'bundles/core.umd.js', defaultExtension: 'js'}
+      'ng2-webstorage': {main: 'bundles/core.umd.js', defaultExtension: 'js'},
+      'ng2-imageupload': {
+        main: 'index.js',
+        defaultExtension: 'js'
+      }
     }
   });
 })(this);

@@ -7,4 +7,5 @@ export interface IUser {
     email : string;
     group_name : string;
     study_year: number;
+    role: string;
 }

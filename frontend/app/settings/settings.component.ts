@@ -34,10 +34,10 @@ export class SettingsComponent implements OnInit {
     }
 
     isDisable() : boolean{
-         return ( (this.user.name.length === 0) || (this.user.surname.length === 0) ||
-                (this.user.username.length === 0) || (this.user.patronymic.length === 0) ||
-                (this.user.email.length === 0) || (this.user.group_name.length === 0)  ||
-                (this.user.study_year === null) || isNaN(this.user.study_year) || (this.user.study_year < 1) || (this.user.study_year > 6) );
+         return ( !this.user.name || (this.user.name.length === 0) || !this.user.surname || (this.user.surname.length === 0) ||
+                !this.user.username || (this.user.username.length === 0) || !this.user.patronymic || (this.user.patronymic.length === 0) ||
+                !this.user.email ||  (this.user.email.length === 0) || ((!this.user.group_name ||(this.user.group_name.length === 0)) && this._userService.user.role === 'user')
+                || (((this.user.study_year === null) || isNaN(this.user.study_year) || (this.user.study_year < 1) || (this.user.study_year > 6) ) && this._userService.user.role === 'user'));
 
     }
 

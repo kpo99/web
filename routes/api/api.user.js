@@ -74,6 +74,7 @@ router.get('/course',function(req,res){
                 res.status(values.unprocessableEntity).json(jsonStatus.wrong_params);
         }
         else if(req.query.course_id){
+
             courseCtrl.course_getById(req,res)
                 .then(course => res.json(course))
                 .catch(err => res.status(err[0]).json(err[1]));
@@ -91,12 +92,12 @@ router.get('/course',function(req,res){
 router.delete('/course',function(req,res){
     if(req.user){
         if(req.user.role !== 'admin'){
-            if(req.query.id){
+            if(req.body.id){
                 let where = {};
                 where.user_id = req.user._id;
-                where._id = req.query.id;
+                where._id = req.body.id;
                 courseCtrl.course_delete(req,where)
-                    .then(status=>res.json(status))
+                    .then(course=>res.json(course))
                     .catch(err=>res.status(err[0]).json(err[1]));
             }
             else

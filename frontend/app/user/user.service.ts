@@ -24,7 +24,6 @@ export class UserService {
             .then(res => {
                 let user = <IUser>res.json();
                 user.password = null;
-                user.role = null;
                 this.user = user;
                 return  user || {}
             });
