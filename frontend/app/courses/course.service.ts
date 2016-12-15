@@ -50,6 +50,18 @@ export class CourseService {
             .then((response : Response) => <ICourseBrief>response.json() || {});
     }
 
+    courseUpdate(courseObject : Object) : Promise<Response> {
+        return this._http.put(this.courseUrl, courseObject)
+            .toPromise()
+            .then(res => res.json());
+    }
+
+    courseCreate(courseObj : Object) : Promise<Response> {
+
+        return this._http.post(this.courseUrl,courseObj)
+            .toPromise();
+    }
+
 
     private handleError(error: Response)
     {

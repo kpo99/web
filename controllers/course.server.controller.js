@@ -17,6 +17,8 @@ exports.course_create = function(req){
                        creator_id: req.user._id,
                        name: req.body.name,
                        year: parseInt(req.body.year),
+                       description: req.body.description,
+                       course_logo: req.body.course_logo,
                        property: 'public',
 
                    });
@@ -138,31 +140,35 @@ exports.course_update_teacher = function (req) {
     return new Promise(function (resolve,reject) {
         if(req.user){
             if(req.user.role === 'teacher'){
-                if(!req.query.id)
+                if(!req.body._id)
                     reject([values.unprocessableEntity,jsonStatus.wrong_body]);
                 let where = {};
                 where.user_id = req.user._id;
-                where._id = req.query.id;
+                where._id = req.body._id;
 
                 Course.findOne(where,function(err,course){
                     if (err)
                         reject([values.internalServerError,err]);
                     if(course){
-                        if(req.query.name)
-                            course.name = req.query.name;
-                        if(req.query.year) {
-                            if (validator.isNumber(req.query.year))
-                                course.year = parseInt(req.query.year);
+                        if(req.body.name)
+                            course.name = req.body.name;
+                        if(req.body.year) {
+                            if (validator.isNumber(req.body.year))
+                                course.year = parseInt(req.body.year);
                             else
                                 reject([values.unprocessableEntity,jsonStatus.wrong_params]);
 
                         }
 
-                        course.save(function (err) {
+                        if (req.body.description)
+                            course.description = req.body.description;
+                        if (req.body.course_logo)
+                            course.course_logo = req.body.course_logo;
+                        course.save(function (err, course) {
                            if(err)
                                reject([values.internalServerError,err]);
                             else
-                               resolve(jsonStatus.save_succes);
+                               resolve(course);
                         });
                     }
                     else

@@ -2,14 +2,16 @@
 <mdl-layout mdl-layout-fixed-header mdl-layout-fixed-drawer >
     <mdl-layout-header mdl-shadow="6">
         <mdl-layout-header-row class ="header-panel-color">
-           <mdl-textfield   icon="search" type="text"  [(ngModel)]="findBy" style ="width: 220px; " ></mdl-textfield>
+           <mdl-textfield   icon="search" class="color-scheme--white-c" type="text"  [(ngModel)]="findBy" style ="width: 220px; " ></mdl-textfield>
 
-            <mdl-layout-spacer></mdl-layout-spacer>
+                <button mdl-button mdl-button-type="icon" style="position: absolute; right: 110px;" [routerLink]="['/settings']">
+                    <mdl-icon class ="color-scheme--white-c">settings</mdl-icon>
+                </button>
 
-            <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" [routerLink]="['/settings']" align="center" mdl-ripple>Settings</a>
-                <a class="mdl-navigation__link"   (click)="onLogOut()" align="center"> Log out</a>
-            </nav>
+                <button mdl-button mdl-button-type="icon" style="position: absolute; right: 40px;" (click)="onLogOut()">
+                    <mdl-icon class ="color-scheme--white-c">input</mdl-icon>
+                </button>
+
             </mdl-layout-header-row>
     </mdl-layout-header>
     <mdl-layout-drawer>
@@ -23,7 +25,7 @@
             <br>
             <a class="mdl-navigation__link "  mdl-shadow="6" [routerLink]="['/courses/my']" align="center"><h6>My courses</h6></a>
             <br>
-            <a *ngIf="_userService.user && _userService.user.role === 'teacher'" class="mdl-navigation__link color-scheme--white"  mdl-shadow="6"  align="center"><h6>Add Course</h6></a>
+            <a *ngIf="_userService.user && _userService.user.role === 'teacher'" class="mdl-navigation__link"  mdl-shadow="6" [routerLink]="['/course/add']"  align="center"><h6>Add Course</h6></a>
         </nav>
     </mdl-layout-drawer>
     <mdl-layout-content class ="color-scheme--grey">

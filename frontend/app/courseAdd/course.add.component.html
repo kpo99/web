@@ -1,0 +1,74 @@
+
+
+
+<mdl-layout mdl-layout-fixed-header mdl-layout-fixed-drawer >
+    <mdl-layout-header mdl-shadow="6">
+        <mdl-layout-header-row class ="header-panel-color">
+            <button mdl-button mdl-button-type="icon" [routerLink]="['/courses']">
+                <mdl-icon class ="color-scheme--white-c">home</mdl-icon>
+            </button>
+            <button mdl-button mdl-button-type="icon" style="position: absolute; right: 110px;" [routerLink]="['/settings']">
+                <mdl-icon class ="color-scheme--white-c">settings</mdl-icon>
+            </button>
+
+            <button mdl-button mdl-button-type="icon" style="position: absolute; right: 40px;" (click)="onLogOut()">
+                <mdl-icon class ="color-scheme--white-c">input</mdl-icon>
+            </button>
+        </mdl-layout-header-row>
+    </mdl-layout-header>
+    <mdl-layout-drawer>
+        <mdl-layout-header >
+            <mdl-layout-header-row class ="header-panel-color">
+                <mdl-layout-title class ="color-scheme--white-c">Dashboard</mdl-layout-title>
+            </mdl-layout-header-row>
+        </mdl-layout-header>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link  " mdl-shadow="6"  [routerLink]="['/courses']" align="center"><h6>All Courses</h6> </a>
+            <br>
+            <a class="mdl-navigation__link "  mdl-shadow="6" [routerLink]="['/courses/my']" align="center"><h6>My courses</h6></a>
+            <br>
+            <a *ngIf="_userService.user && _userService.user.role === 'teacher'" class="mdl-navigation__link color-scheme--grey"  mdl-shadow="6"  align="center"><h6>Add Course</h6></a>
+        </nav>
+    </mdl-layout-drawer>s
+    <mdl-layout-content class ="color-scheme--grey">
+
+        <div class="settings-style-pass">
+            <mdl-card mdl-shadow="6" style="width: 700px; height: 405px">
+                <h5 align="center">Create new course:</h5>
+                <div>
+                    <mdl-textfield type="text" required label="Name" style="width: 250px; position: relative; left: 80px;" [(ngModel)]="name" floating-label></mdl-textfield>
+                    <mdl-textfield type="number" required min ="2016" max ="2020" label="Course year" style="width: 250px; position: absolute; right: 80px;" [(ngModel)]="year" floating-label></mdl-textfield>
+                </div>
+
+                <div align="center">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--file">
+                    <input class="mdl-textfield__input" placeholder="No file chosen" type="text" id="TEXT_ID" readonly />
+                    <div class="mdl-button mdl-button--icon mdl-button--file">
+                        <i class="material-icons">attach_file</i>
+                        <input type="file" image-upload  (imageSelected)="selected($event)"  [resizeOptions]="resizeOptions" name="NAME"  onchange="document.getElementById('TEXT_ID').value=this.files[0].name;" />
+                    </div>
+                </div>
+                    </div>
+                <div align="center">
+                <mdl-textfield label="Description"  required [(ngModel)]="description" rows="5" maxrows="5" floating-label></mdl-textfield>
+                </div>
+                <mdl-card-actions mdl-card-border align ="center" >
+                    <button mdl-button mdl-colored="accent" mdl-button-type="raised"  (click)="courseCreate()" [disabled] = "isDisable()" mdl-ripple>
+                       Create course
+                    </button>
+                </mdl-card-actions>
+
+
+            </mdl-card>
+        </div>
+
+
+
+
+    </mdl-layout-content>
+</mdl-layout>
+
+
+
+
+

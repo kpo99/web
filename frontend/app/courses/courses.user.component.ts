@@ -4,6 +4,7 @@ import {CourseService} from "./course.service";
 import {UserService} from "../user/user.service";
 import {Router} from "@angular/router";
 import {PagerService} from "../pagerService/pager.service";
+import { ImageResult, ResizeOptions } from 'ng2-imageupload';
 
 @Component({
     templateUrl: 'app/courses/courses.user.component.html',
@@ -21,6 +22,13 @@ export class  UserCoursesComponent implements OnInit, DoCheck
     findBy : string = '';
     errorMessage: string;
     curr_page : number = 1;
+    src : string = '';
+    courseUpdateObj : Object = {
+        name : '',
+        description : '',
+        course_logo : ''
+
+    };
 
     constructor(private _courseService: CourseService, private _userService : UserService, private _router : Router,
                 private pagerService : PagerService ){
@@ -30,9 +38,6 @@ export class  UserCoursesComponent implements OnInit, DoCheck
     getCourses(): void {
         this._courseService.getCoursesBrief('http://127.0.0.1:3000/api/user/course?size=0&offset=0')
             .subscribe(courses => {
-                    for (let course of courses){
-                        course.course_logo = 'data:image/png;base64,' + course.course_logo;
-                    }
                     this.courses = courses;
                     this.courses_m = courses;
                     this.setPage(1);
@@ -61,6 +66,26 @@ export class  UserCoursesComponent implements OnInit, DoCheck
 
     }
 
+    setCourse(course_id :string) : void {
+        this._courseService.courseView(course_id)
+            .then(result => this.courseUpdateObj = result);
+
+    }
+
+    courseUpdate() : void {
+        this._courseService.courseUpdate(this.courseUpdateObj)
+            .then((course) => {
+                for (let el of this.courses_m){
+                    if (el._id === course._id)
+                    {
+                        el.name = course.name;
+                        el.course_logo = course.course_logo;
+                    }
+                }
+            })
+            .catch(err => JSON.stringify(err));
+    }
+
     courseView(course_id : string) : void {
         this._courseService.courseView(course_id)
             .catch(err => JSON.stringify(err));
@@ -85,6 +110,12 @@ export class  UserCoursesComponent implements OnInit, DoCheck
         if (this.courses_m)
             this.setPage(this.curr_page);
 
+    }
+
+    selected(imageResult: ImageResult) {
+        this.courseUpdateObj.course_logo = imageResult.resized
+            && imageResult.resized.dataURL
+            || imageResult.dataURL;
     }
 
     setPage(page: number) {

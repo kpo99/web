@@ -1,12 +1,16 @@
 <mdl-layout mdl-layout-fixed-header mdl-layout-fixed-drawer>
     <mdl-layout-header  mdl-shadow="6">
         <mdl-layout-header-row class ="header-panel-color">
-            <mdl-layout-spacer></mdl-layout-spacer>
+            <button mdl-button mdl-button-type="icon" [routerLink]="['/courses']">
+                <mdl-icon class ="color-scheme--white-c">home</mdl-icon>
+            </button>
+            <button mdl-button mdl-button-type="icon" style="position: absolute; right: 110px;" [routerLink]="['/settings']">
+                <mdl-icon class ="color-scheme--white-c">settings</mdl-icon>
+            </button>
 
-            <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" [routerLink]="['/settings']" align="center" mdl-ripple>Settings</a>
-                <a class="mdl-navigation__link"   (click)="onLogOut()" align="center"> Log out</a>
-            </nav>
+            <button mdl-button mdl-button-type="icon" style="position: absolute; right: 40px;" (click)="onLogOut()">
+                <mdl-icon class ="color-scheme--white-c">input</mdl-icon>
+            </button>
         </mdl-layout-header-row>
     </mdl-layout-header>
     <mdl-layout-drawer>

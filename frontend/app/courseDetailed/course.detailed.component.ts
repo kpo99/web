@@ -20,7 +20,6 @@ export class CourseDetailedComponent implements OnInit{
         this._courseService.courseView(this._route.snapshot.params['id'])
             .then(response => {
                 this.course = response;
-                this.course.course_logo = 'data:image/png;base64,' + this.course.course_logo;
 
             })
             .catch(err => JSON.stringify(err));

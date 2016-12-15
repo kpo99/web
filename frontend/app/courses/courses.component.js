@@ -27,11 +27,6 @@ var CoursesComponent = (function () {
         var _this = this;
         this._courseService.getCoursesBrief('http://127.0.0.1:3000/api/courses?size=0&offset=0')
             .subscribe(function (courses) {
-            for (var _i = 0, courses_1 = courses; _i < courses_1.length; _i++) {
-                var course = courses_1[_i];
-                course.course_logo = 'data:image/png;base64,' + course.course_logo;
-                console.log(JSON.stringify(course.status));
-            }
             _this.courses = courses;
             _this.courses_m = courses;
             _this.setPage(1);

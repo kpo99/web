@@ -28,6 +28,7 @@ var pager_service_1 = require("./pagerService/pager.service");
 var courses_user_component_1 = require("./courses/courses.user.component");
 var course_detailed_component_1 = require("./courseDetailed/course.detailed.component");
 var ng2_imageupload_1 = require("ng2-imageupload");
+var course_add_component_1 = require("./courseAdd/course.add.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -37,11 +38,12 @@ var AppModule = (function () {
                 platform_browser_1.BrowserModule,
                 angular2_mdl_1.MdlModule,
                 http_1.HttpModule,
-                forms_1.FormsModule, s,
+                forms_1.FormsModule,
                 ng2_imageupload_1.ImageUploadModule,
                 router_1.RouterModule.forRoot([
                     { path: 'welcome', component: welcome_component_1.WelcomeComponent },
                     { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+                    { path: 'course/add', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: course_add_component_1.CourseAddComponent },
                     { path: 'courses', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: courses_component_1.CoursesComponent },
                     { path: 'course/:id', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: course_detailed_component_1.CourseDetailedComponent },
                     { path: 'courses/my', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: courses_user_component_1.UserCoursesComponent },
@@ -61,7 +63,8 @@ var AppModule = (function () {
                 settings_component_1.SettingsComponent,
                 settings_password_component_1.SettingsPasswordComponent,
                 courses_user_component_1.UserCoursesComponent,
-                course_detailed_component_1.CourseDetailedComponent
+                course_detailed_component_1.CourseDetailedComponent,
+                course_add_component_1.CourseAddComponent
             ],
             providers: [isAuthorized_guard_service_1.IsAuthorizedGuard, course_service_1.CourseService, user_service_1.UserService, pager_service_1.PagerService],
             bootstrap: [app_component_1.AppComponent]

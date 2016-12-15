@@ -45,6 +45,15 @@ var CourseService = (function () {
             .toPromise()
             .then(function (response) { return response.json() || {}; });
     };
+    CourseService.prototype.courseUpdate = function (courseObject) {
+        return this._http.put(this.courseUrl, courseObject)
+            .toPromise()
+            .then(function (res) { return res.json(); });
+    };
+    CourseService.prototype.courseCreate = function (courseObj) {
+        return this._http.post(this.courseUrl, courseObj)
+            .toPromise();
+    };
     CourseService.prototype.handleError = function (error) {
         console.error(error);
         return Observable_1.Observable.throw(error.json().error || 'Server error');

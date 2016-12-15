@@ -22,15 +22,17 @@ var UserCoursesComponent = (function () {
         this.pager = {};
         this.findBy = '';
         this.curr_page = 1;
+        this.src = '';
+        this.courseUpdateObj = {
+            name: '',
+            description: '',
+            course_logo: ''
+        };
     }
     UserCoursesComponent.prototype.getCourses = function () {
         var _this = this;
         this._courseService.getCoursesBrief('http://127.0.0.1:3000/api/user/course?size=0&offset=0')
             .subscribe(function (courses) {
-            for (var _i = 0, courses_1 = courses; _i < courses_1.length; _i++) {
-                var course = courses_1[_i];
-                course.course_logo = 'data:image/png;base64,' + course.course_logo;
-            }
             _this.courses = courses;
             _this.courses_m = courses;
             _this.setPage(1);
@@ -50,6 +52,25 @@ var UserCoursesComponent = (function () {
     };
     UserCoursesComponent.prototype.ngOnInit = function () {
         this.getCourses();
+    };
+    UserCoursesComponent.prototype.setCourse = function (course_id) {
+        var _this = this;
+        this._courseService.courseView(course_id)
+            .then(function (result) { return _this.courseUpdateObj = result; });
+    };
+    UserCoursesComponent.prototype.courseUpdate = function () {
+        var _this = this;
+        this._courseService.courseUpdate(this.courseUpdateObj)
+            .then(function (course) {
+            for (var _i = 0, _a = _this.courses_m; _i < _a.length; _i++) {
+                var el = _a[_i];
+                if (el._id === course._id) {
+                    el.name = course.name;
+                    el.course_logo = course.course_logo;
+                }
+            }
+        })
+            .catch(function (err) { return JSON.stringify(err); });
     };
     UserCoursesComponent.prototype.courseView = function (course_id) {
         this._courseService.courseView(course_id)
@@ -74,6 +95,11 @@ var UserCoursesComponent = (function () {
         }) : this.courses;
         if (this.courses_m)
             this.setPage(this.curr_page);
+    };
+    UserCoursesComponent.prototype.selected = function (imageResult) {
+        this.courseUpdateObj.course_logo = imageResult.resized
+            && imageResult.resized.dataURL
+            || imageResult.dataURL;
     };
     UserCoursesComponent.prototype.setPage = function (page) {
         if (page < 1 || page > this.pager.totalPages) {

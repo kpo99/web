@@ -31,10 +31,6 @@ export class  CoursesComponent implements OnInit, DoCheck
     getCourses(): void {
         this._courseService.getCoursesBrief('http://127.0.0.1:3000/api/courses?size=0&offset=0')
             .subscribe(courses => {
-                    for (let course of courses) {
-                        course.course_logo = 'data:image/png;base64,' + course.course_logo;
-                        console.log(JSON.stringify(course.status));
-                    }
                     this.courses = courses;
                     this.courses_m = courses;
                     this.setPage(1);

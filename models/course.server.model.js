@@ -6,6 +6,9 @@ var mongoose = require('mongoose');
 
 var minLength = [10,'The value of path `{PATH}` (`{VALUE}`) is shorter than the minimum allowed length ({MINLENGTH}).'];
 var maxLength = [20,'The value of path `{PATH}` (`{VALUE}`) exceeds the maximum allowed length ({MAXLENGTH}).'];
+var maxDescriptionLength = [300,'The value of path `{PATH}` (`{VALUE}`) exceeds the maximum allowed length ({MAXLENGTH}).'];
+var mixDescriptionLength = [150,'The value of path `{PATH}` (`{VALUE}`) exceeds the maximum allowed length ({MAXLENGTH}).'];
+
 
 var validateYear = function(value){
   // todo
@@ -36,8 +39,14 @@ var CourseSchema = new Schema({
         validate: [validateYear,'Wrong year value (`{VALUE}`)']
     },
     course_logo: {
-      type: String,
-      default: 'Sad kitty'
+        type: String,
+    },
+    description : {
+        type: String,
+        required : true,
+        minlength: mixDescriptionLength,
+        maxlength: maxDescriptionLength
+
     },
     property:
     {

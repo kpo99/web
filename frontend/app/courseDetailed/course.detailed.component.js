@@ -25,7 +25,6 @@ var CourseDetailedComponent = (function () {
         this._courseService.courseView(this._route.snapshot.params['id'])
             .then(function (response) {
             _this.course = response;
-            _this.course.course_logo = 'data:image/png;base64,' + _this.course.course_logo;
         })
             .catch(function (err) { return JSON.stringify(err); });
     };
