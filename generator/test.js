@@ -2,7 +2,7 @@
  * Created by Peter on 18.11.2016.
  */
 var async = require ( 'async' );
-var officegen = require('officegen');
+var officegen = require('../n_m/officegen');
 
 var fs = require('fs');
 var path = require('path');
@@ -140,7 +140,7 @@ module.exports = function(res,lab, course,user,teacher) {
     var pObj = docx.createP({align: "center"});
     pObj.addText('Мета роботи', {bold: true, font_face: 'Times New Roman', font_size: 14});
 
-    var pObj = docx.createP();
+    var pObj = docx.createP({align: "center"});
     pObj.addText(lab.aim, {font_face: 'Times New Roman', font_size: 14});
     pObj.addLineBreak();
     pObj.addLineBreak();
@@ -148,12 +148,26 @@ module.exports = function(res,lab, course,user,teacher) {
     var pObj = docx.createP({align: "center"});
     pObj.addText('Постановка завдання', {bold: true, font_face: 'Times New Roman', font_size: 14});
 
-    var pObj = docx.createP();
+    var pObj = docx.createP({align: "center"});
     pObj.addText(lab.task_description, {font_face: 'Times New Roman', font_size: 14});
     pObj.addLineBreak();
     pObj.addLineBreak();
 
+    var pObj = docx.createP({align: "center"});
+    pObj.addText('Лістинг программи', {bold: true, font_face: 'Times New Roman', font_size: 14});
+    pObj.addLineBreak();
 
+    pObj.addText(lab.code_examples, {font_face: 'Times New Roman', font_size: 14});
+    pObj.addLineBreak();
+    pObj.addLineBreak();
+
+    var pObj = docx.createP({align: "center"});
+    pObj.addText('Висновки', {bold: true, font_face: 'Times New Roman', font_size: 14});
+    pObj.addLineBreak();
+
+    pObj.addText(lab.summary, {font_face: 'Times New Roman', font_size: 14});
+    pObj.addLineBreak();
+    pObj.addLineBreak();
 
 
 

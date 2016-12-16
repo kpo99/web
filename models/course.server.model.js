@@ -5,8 +5,8 @@ var mongoose = require('mongoose');
 
 
 var minLength = [10,'The value of path `{PATH}` (`{VALUE}`) is shorter than the minimum allowed length ({MINLENGTH}).'];
-var maxLength = [20,'The value of path `{PATH}` (`{VALUE}`) exceeds the maximum allowed length ({MAXLENGTH}).'];
-var maxDescriptionLength = [300,'The value of path `{PATH}` (`{VALUE}`) exceeds the maximum allowed length ({MAXLENGTH}).'];
+var maxLength = [24,'The value of path `{PATH}` (`{VALUE}`) exceeds the maximum allowed length ({MAXLENGTH}).'];
+var maxDescriptionLength = [550,'The value of path `{PATH}` (`{VALUE}`) exceeds the maximum allowed length ({MAXLENGTH}).'];
 var mixDescriptionLength = [150,'The value of path `{PATH}` (`{VALUE}`) exceeds the maximum allowed length ({MAXLENGTH}).'];
 
 
@@ -31,7 +31,8 @@ var CourseSchema = new Schema({
     name: {
         type: String,
         required:true,
-        minlength: minLength
+        minlength: minLength,
+        maxlength: maxLength
     },
     year: {
         type: Number,

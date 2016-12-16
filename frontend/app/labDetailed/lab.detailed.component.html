@@ -1,0 +1,69 @@
+<mdl-layout mdl-layout-fixed-header mdl-layout-fixed-drawer >
+    <mdl-layout-header mdl-shadow="6">
+        <mdl-layout-header-row class ="header-panel-color">
+            <mdl-layout-spacer></mdl-layout-spacer>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" [routerLink]="['/settings']" align="center" mdl-ripple>Settings</a>
+                <a class="mdl-navigation__link"   (click)="onLogOut()" align="center"> Log out</a>
+            </nav>
+        </mdl-layout-header-row>
+    </mdl-layout-header>
+    <mdl-layout-drawer>
+        <mdl-layout-header>
+            <mdl-layout-header-row class ="header-panel-color">
+                <mdl-layout-title class ="color-scheme--white-c">Dashboard</mdl-layout-title>
+            </mdl-layout-header-row>
+        </mdl-layout-header>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link  color-scheme--white" mdl-shadow="6"  [routerLink]="['/courses']" align="center"><h6>All Courses</h6> </a>
+            <br>
+            <a class="mdl-navigation__link color-scheme--white"  mdl-shadow="6" [routerLink]="['/courses/my']" align="center"><h6>My courses</h6></a>
+            <br>
+            <a *ngIf="_userService.user && _userService.user.role === 'teacher'" class="mdl-navigation__link color-scheme--white"  mdl-shadow="6"  align="center"><h6>Add Course</h6></a>
+        </nav>
+    </mdl-layout-drawer>
+    <mdl-layout-content class ="color-scheme--grey">
+        <div class ="course-desc-style" *ngIf ="aim && theme && number && task_description">
+            <mdl-card mdl-shadow="6" style="width: 850px; min-height: 800px">
+                <h5 align="center">{{'Лабораторна робота № ' + number + ':'}}
+                    <br>
+                    <br>
+                    {{'"' + theme + '"'}}
+                </h5>
+                <h5 style="float: left; position: relative; left : 30px;">
+                    Мета:
+                </h5>
+                <p style="float: left; position: relative; left : 30px; width: 92%">
+                    {{aim}}
+                </p>
+
+                <h5 style="float: left; position: relative; left : 30px;">
+                    Опис завдання:
+                </h5>
+                <p style="float: left; position: relative; left : 30px; width: 92%">
+                        {{task_description}}
+                </p>
+
+                <div *ngIf="(user_id === _userService.user._id) && (_userService.user.role === 'user')" >
+                    <mdl-textfield label="Code examples"  style="position: absolute; left: 50px;" required [(ngModel)]="code_examples" rows="5" maxrows="5" floating-label></mdl-textfield>
+                    <mdl-textfield label="Summary"    style="position: absolute; right: 50px;" required [(ngModel)]="summary" rows="5" maxrows="5" floating-label></mdl-textfield>
+                </div>
+
+
+
+                <div style ="position: absolute; bottom : 15px; left: 30px;" *ngIf="(user_id === _userService.user._id) && (_userService.user.role === 'user')" >
+                    <button mdl-button  (click)="labGenerate()">
+                        Generate
+                    </button>
+                </div>
+                <div style ="position: absolute; bottom : 15px; right: 30px;" *ngIf="(user_id === _userService.user._id) && (_userService.user.role === 'user')" >
+                    <button mdl-button  (click) ="labUpdate()">
+                        Update
+                    </button>
+                </div>
+
+
+            </mdl-card>
+        </div>
+    </mdl-layout-content>
+</mdl-layout>

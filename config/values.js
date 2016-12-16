@@ -7,7 +7,7 @@
 exports.badRequest = 400;
 exports.not_authorized = 401;
 exports.forbidden = 403;
-exports.notFound = 403;
+exports.notFound = 404;
 exports.unprocessableEntity = 422;
 
 /* 5xx */

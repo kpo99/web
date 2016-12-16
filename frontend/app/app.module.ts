@@ -21,6 +21,7 @@ import {UserCoursesComponent} from "./courses/courses.user.component";
 import {CourseDetailedComponent} from "./courseDetailed/course.detailed.component";
 import {ImageUploadModule} from "ng2-imageupload";
 import {CourseAddComponent} from "./courseAdd/course.add.component";
+import {LabDetailedComponent} from "./labDetailed/lab.detailed.component";
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import {CourseAddComponent} from "./courseAdd/course.add.component";
       RouterModule.forRoot([
           {path: 'welcome', component: WelcomeComponent },
           {path: '', redirectTo: 'welcome', pathMatch: 'full'},
+          {path: 'course/:course_id/lab/:lab_id', canActivate: [IsAuthorizedGuard], component: LabDetailedComponent},
           {path: 'course/add', canActivate: [IsAuthorizedGuard], component: CourseAddComponent},
           {path: 'courses', canActivate: [IsAuthorizedGuard], component: CoursesComponent},
           {path: 'course/:id', canActivate: [IsAuthorizedGuard], component: CourseDetailedComponent},
@@ -55,7 +57,8 @@ import {CourseAddComponent} from "./courseAdd/course.add.component";
       SettingsPasswordComponent,
       UserCoursesComponent,
       CourseDetailedComponent,
-      CourseAddComponent
+      CourseAddComponent,
+      LabDetailedComponent
   ],
   providers: [IsAuthorizedGuard,CourseService, UserService, PagerService],
   bootstrap: [ AppComponent ]

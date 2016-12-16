@@ -29,6 +29,7 @@ var courses_user_component_1 = require("./courses/courses.user.component");
 var course_detailed_component_1 = require("./courseDetailed/course.detailed.component");
 var ng2_imageupload_1 = require("ng2-imageupload");
 var course_add_component_1 = require("./courseAdd/course.add.component");
+var lab_detailed_component_1 = require("./labDetailed/lab.detailed.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -43,6 +44,7 @@ var AppModule = (function () {
                 router_1.RouterModule.forRoot([
                     { path: 'welcome', component: welcome_component_1.WelcomeComponent },
                     { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+                    { path: 'course/:course_id/lab/:lab_id', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: lab_detailed_component_1.LabDetailedComponent },
                     { path: 'course/add', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: course_add_component_1.CourseAddComponent },
                     { path: 'courses', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: courses_component_1.CoursesComponent },
                     { path: 'course/:id', canActivate: [isAuthorized_guard_service_1.IsAuthorizedGuard], component: course_detailed_component_1.CourseDetailedComponent },
@@ -64,7 +66,8 @@ var AppModule = (function () {
                 settings_password_component_1.SettingsPasswordComponent,
                 courses_user_component_1.UserCoursesComponent,
                 course_detailed_component_1.CourseDetailedComponent,
-                course_add_component_1.CourseAddComponent
+                course_add_component_1.CourseAddComponent,
+                lab_detailed_component_1.LabDetailedComponent
             ],
             providers: [isAuthorized_guard_service_1.IsAuthorizedGuard, course_service_1.CourseService, user_service_1.UserService, pager_service_1.PagerService],
             bootstrap: [app_component_1.AppComponent]

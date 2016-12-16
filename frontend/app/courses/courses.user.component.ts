@@ -83,12 +83,11 @@ export class  UserCoursesComponent implements OnInit, DoCheck
                     }
                 }
             })
-            .catch(err => JSON.stringify(err));
+            .catch(err => console.log(err.json()));
     }
-
     courseView(course_id : string) : void {
         this._courseService.courseView(course_id)
-            .catch(err => JSON.stringify(err));
+            .catch(err => console.log(JSON.stringify(err)));
     }
 
     onCourseDelete(course_id : string) : void {
@@ -99,7 +98,7 @@ export class  UserCoursesComponent implements OnInit, DoCheck
                    return el._id !== course._id;
                 });
             })
-            .catch(err => JSON.stringify(err));
+            .catch(err => console.log(err));
     }
 
 

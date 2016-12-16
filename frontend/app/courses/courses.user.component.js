@@ -70,11 +70,11 @@ var UserCoursesComponent = (function () {
                 }
             }
         })
-            .catch(function (err) { return JSON.stringify(err); });
+            .catch(function (err) { return console.log(err.json()); });
     };
     UserCoursesComponent.prototype.courseView = function (course_id) {
         this._courseService.courseView(course_id)
-            .catch(function (err) { return JSON.stringify(err); });
+            .catch(function (err) { return console.log(JSON.stringify(err)); });
     };
     UserCoursesComponent.prototype.onCourseDelete = function (course_id) {
         var _this = this;
@@ -85,7 +85,7 @@ var UserCoursesComponent = (function () {
                 return el._id !== course._id;
             });
         })
-            .catch(function (err) { return JSON.stringify(err); });
+            .catch(function (err) { return console.log(err); });
     };
     UserCoursesComponent.prototype.ngDoCheck = function () {
         var _this = this;

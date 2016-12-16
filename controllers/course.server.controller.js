@@ -228,6 +228,7 @@ exports.course_addLab = function (req) {
     return new Promise(function (resolve,reject) {
        if(req.user){
             if( req.user.role === 'teacher'){
+
                 if(!req.body.id)
                     reject([values.unprocessableEntity,jsonStatus.wrong_body]);
                 let where = {};
@@ -323,14 +324,88 @@ exports.course_subscribeLab = function (req) {
 
 
 
-exports.lab_update = function(req)
+exports.lab_get = function(req)
 {
-  return new Promise(function(resolve,reject){
+    return new Promise(function (resolve,reject) {
+        if (req.user){
+            if (req.user.role !== 'admin'){
+                if(!req.query.course_id || !req.query.lab_id)
+                    reject([values.unprocessableEntity,jsonStatus.wrong_body]);
 
-  });
+                    Course.findOne({_id: req.query.course_id}, function (err, course) {
+                        if (err)
+                            reject([values.internalServerError, err]);
+                        if (course) {
+                            var lab = course.labs.id(req.query.lab_id);
+                            if(!lab)
+                                reject([values.notFound, jsonStatus.not_found]);
+                            else
+                                {
+                                    lab.user_id = course.user_id;
+                                    resolve(lab);
+                                }
+
+
+                        }
+                        else
+                            reject([values.notFound, jsonStatus.not_found]);
+                    });
+
+            }
+            else
+                reject([values.not_authorized,jsonStatus.inappropriate_role]);
+        }
+        else
+            reject([values.not_authorized,jsonStatus.not_authorized]);
+
+    });
 };
 
 
 
 
+exports.lab_update= function(req)
+{
+    return new Promise(function (resolve,reject) {
+        if (req.user){
+            if (req.user.role !== 'admin'){
+                if(!req.body.course_id || !req.body.lab_id)
+                    reject([values.unprocessableEntity,jsonStatus.wrong_body]);
 
+                Course.findOne({_id: req.body.course_id, user_id : req.user._id}, function (err, course) {
+                    if (err)
+                        reject([values.internalServerError, err]);
+                    if (course) {
+                        var lab = course.labs.id(req.body.lab_id);
+                        if(!lab)
+                            reject([values.notFound, jsonStatus.not_found]);
+                        else
+                        {
+                            course.labs.pull({_id: req.body.lab_id});
+                            lab.code_examples = req.body.code_examples;
+                            lab.summary = req.body.summary;
+                            course.labs.push(lab);
+                            course.save(function (err,res) {
+                               if (err)
+                                   reject([values.internalServerError, err]);
+                               if (res)
+                                   resolve(res);
+
+                            });
+
+                        }
+
+                    }
+                    else
+                        reject([values.notFound, jsonStatus.not_found]);
+                });
+
+            }
+            else
+                reject([values.not_authorized,jsonStatus.inappropriate_role]);
+        }
+        else
+            reject([values.not_authorized,jsonStatus.not_authorized]);
+
+    });
+};

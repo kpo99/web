@@ -1,12 +1,41 @@
+<mdl-dialog #editUserDialog
+            [mdl-dialog-config]="{
+              clickOutsideToClose: true,
+              styles:{'width': '600px', 'height' : '450px'},
+              isModal:true,
+              openFrom: editUserButton,
+              enterTransitionDuration: 400,
+              leaveTransitionDuration: 400}">
+    <div class="mdl-dialog__content">
+        <h5>Add lab:</h5>
+        <mdl-textfield type="number"  min ="1" max ="10"  style ="width: 230px; position: absolute; left : 40px;" label="Lab number" [(ngModel)]="number" floating-label autofocus></mdl-textfield>
+
+        <mdl-textfield label="Theme"  rows="3" maxrows="3" style ="width: 230px; position: absolute; right: 30px;" [(ngModel)]="theme" floating-label></mdl-textfield>
+
+        <div align="center">
+            <mdl-textfield label="Aim" style ="width: 230px; position: absolute; left : 40px; top : 200px;"  rows="4" maxrows="4" [(ngModel)]="aim" floating-label></mdl-textfield>
+
+            <mdl-textfield label="Description"  style ="width: 230px; position: absolute; right: 30px; top: 200px;" rows="4" maxrows="4"  [(ngModel)]="task_description" floating-label></mdl-textfield>
+        </div>
+
+    <div class="mdl-dialog__actions" style ="position: absolute; bottom: 30px; right : 40px;">
+        <button mdl-button  mdl-button-type="raised" mdl-colored="primary" (click)="addLab(); editUserDialog.close();" mdl-ripple>Add</button>
+        <button mdl-button (click)="editUserDialog.close()" mdl-ripple>Cancel</button>
+    </div>
+        </div>
+</mdl-dialog>
+
 
 <mdl-layout mdl-layout-fixed-header mdl-layout-fixed-drawer >
     <mdl-layout-header mdl-shadow="6">
         <mdl-layout-header-row class ="header-panel-color">
-            <mdl-layout-spacer></mdl-layout-spacer>
-            <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" [routerLink]="['/settings']" align="center" mdl-ripple>Settings</a>
-                <a class="mdl-navigation__link"   (click)="onLogOut()" align="center"> Log out</a>
-            </nav>
+            <button mdl-button mdl-button-type="icon" style="position: absolute; right: 110px;" [routerLink]="['/settings']">
+                <mdl-icon class ="color-scheme--white-c" mdl-tooltip="Settings">settings</mdl-icon>
+            </button>
+
+            <button mdl-button mdl-button-type="icon" style="position: absolute; right: 40px;" (click)="onLogOut()">
+                <mdl-icon class ="color-scheme--white-c" mdl-tooltip="Logout">input</mdl-icon>
+            </button>
         </mdl-layout-header-row>
     </mdl-layout-header>
     <mdl-layout-drawer>
@@ -25,7 +54,7 @@
     </mdl-layout-drawer>
     <mdl-layout-content class ="color-scheme--grey">
         <div class ="course-desc-style" *ngIf ="course && course.name && course.year">
-        <mdl-card mdl-shadow="6" style="width: 850px; min-height: 280px">
+        <mdl-card mdl-shadow="6" style="width: 850px; min-height: 290px">
             <div align ="center"><h5>{{course.name + ' (' + course.year + ')'}}</h5></div>
 
             <div  style="float:left; display:inline-block; ">
@@ -38,21 +67,33 @@
                     <img [src] ='course.course_logo' height="180" width="180" class="color-scheme--white" style ="position: absolute; right: 20px;">
                 </span>
             </div>
+            <div style ="position: absolute; bottom : 15px; left: 30px;" *ngIf ="course && (course.user_id === _userService.user._id) && (_userService.user.role === 'teacher')">
+            <button mdl-button mdl-button-type="icon" (click)="editUserDialog.show()">
+                <mdl-icon mdl-tooltip="Add lab">add</mdl-icon>
+            </button>
+                </div>
             </mdl-card>
             </div>
 
-            <div class="mdl-grid" align = "center" style="position: absolute; top: 320px;" >
-                <div class="mdl-cell mdl-cell--6-col" *ngFor="let lab of course.labs ">
+
+
+            <div class="mdl-grid" align = "center" style="position: absolute; top: 330px; left: 13px;" >
+                <div class="mdl-cell mdl-cell--4-col" *ngFor="let lab of course.labs ">
 
 
                     <mdl-card  mdl-shadow="6" style ="width : 220px; height: 280px; " >
 
-                        <div align="center" style="position : absolute; top: 20px; left: 15px; right: 15px;">Лабораторна робота, з теми:</div>
-                        <div align="center" style="position : absolute; top: 65px; left: 15px; right: 15px;">{{lab.theme}}</div>
+                        <div align="center" style="position : absolute; top: 20px; left: 15px; right: 15px;">{{'Лабораторна робота № ' + lab.number}}
+                            <br>
+                            з теми:
+                        </div>
+                        <div align="center" style="position : absolute; top: 65px; left: 15px; right: 15px;">{{'"' + lab.theme + '"'}}</div>
 
-                        <mdl-card-actions >
-                            <button mdl-button mdl-colored mdl-ripple *ngIf = "_userService.user && _userService.user.role !== 'teacher'"(click)="onSubscribe(course._id)">
-                                Subscribe
+
+
+                        <mdl-card-actions mdl-card-border style ="position: absolute; bottom : 3px;">
+                            <button mdl-button mdl-colored mdl-ripple [routerLink] = "['/course/', course._id,'lab', lab._id]">
+                                View
                             </button>
                         </mdl-card-actions>
 

@@ -1,5 +1,11 @@
 <div class="demo-container" mdl-shadow="2">
-    <mdl-layout >
+    <mdl-layout  mdl-layout-fixed-header>
+            <mdl-layout-header mdl-shadow="6">
+                <mdl-layout-header-row class ="header-panel-color">
+
+                </mdl-layout-header-row>
+            </mdl-layout-header>
+
         <mdl-layout-content class ="color-scheme--grey">
             <div class="login-form" >
                 <mdl-card mdl-shadow="2">
@@ -11,13 +17,13 @@
                         <mdl-textfield type="password" label="Password"  [(ngModel)]="password" floating-label></mdl-textfield>
                     </div>
                     <mdl-card-actions mdl-card-border>
-                        <button mdl-button mdl-button-type="raised" mdl-colored = "primary" (click)="onLogIn()" mdl-ripple>Log In</button>
+                        <div align ="right" >
+                            <button  mdl-button mdl-button-type="raised" mdl-colored = "primary" (click)="onLogIn()" mdl-ripple>Log In</button>
+                         </div>
                     </mdl-card-actions>
 
                 </mdl-card>
             </div>
-
-
 
         </mdl-layout-content>
     </mdl-layout>

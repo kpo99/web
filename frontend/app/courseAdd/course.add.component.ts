@@ -39,7 +39,7 @@ export class CourseAddComponent {
          };
 
          this._courseService.courseCreate(courseObj)
-             .catch(err => JSON.stringify(err));
+             .catch(err => console.log(JSON.stringify(err)));
 
 
     }

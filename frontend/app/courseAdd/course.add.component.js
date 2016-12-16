@@ -41,7 +41,7 @@ var CourseAddComponent = (function () {
             course_logo: this.src
         };
         this._courseService.courseCreate(courseObj)
-            .catch(function (err) { return JSON.stringify(err); });
+            .catch(function (err) { return console.log(JSON.stringify(err)); });
     };
     CourseAddComponent.prototype.isDisable = function () {
         return (!this.name || (this.name.length === 0) || !this.description || (this.description.length === 0) ||

@@ -183,4 +183,29 @@ router.post('/course/lab',function(req,res){
     else
         res.status(values.not_authorized).json(jsonStatus.not_authorized);
 });
+
+router.get('/course/lab',function(req,res){
+    if(req.user){
+       courseCtrl.lab_get(req)
+           .then(lab => res.json(lab))
+           .catch(err => res.status(err[0]).json(err[1]));
+
+    }
+    else
+        res.status(values.not_authorized).json(jsonStatus.not_authorized);
+});
+
+
+router.put('/course/lab',function(req,res){
+    if(req.user){
+        courseCtrl.lab_update(req)
+            .then(lab => res.json(lab))
+            .catch(err => res.status(err[0]).json(err[1]));
+
+    }
+    else
+        res.status(values.not_authorized).json(jsonStatus.not_authorized);
+});
+
+
 module.exports = router;

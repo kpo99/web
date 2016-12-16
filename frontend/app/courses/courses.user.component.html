@@ -23,10 +23,10 @@
         </div>
     </div>
     <div align="center">
-        <mdl-textfield label="Description"   [(ngModel)]="courseUpdateObj.description" rows="5" maxrows="5" floating-label></mdl-textfield>
+        <mdl-textfield label="Description"   required [(ngModel)]="courseUpdateObj.description" rows="5" maxrows="5" floating-label></mdl-textfield>
     </div>
     <div class="mdl-dialog__actions">
-        <button mdl-button  mdl-button-type="raised" mdl-colored="primary" (click)="courseUpdate()" mdl-ripple>Save</button>
+        <button mdl-button  mdl-button-type="raised" mdl-colored="primary" (click)="courseUpdate(); editUserDialog.close();" mdl-ripple>Save</button>
         <button mdl-button (click)="editUserDialog.close()" mdl-ripple>Cancel</button>
     </div>
 </mdl-dialog>
@@ -40,11 +40,11 @@
         <mdl-layout-header-row class ="header-panel-color">
             <mdl-textfield   icon="search" class="color-scheme--white-c" type="text"  [(ngModel)]="findBy" style ="width: 220px; " ></mdl-textfield>
                 <button mdl-button mdl-button-type="icon" style="position: absolute; right: 110px;" [routerLink]="['/settings']">
-                    <mdl-icon class ="color-scheme--white-c">settings</mdl-icon>
+                    <mdl-icon class ="color-scheme--white-c" mdl-tooltip="Settings">settings</mdl-icon>
                 </button>
 
                 <button mdl-button mdl-button-type="icon" style="position: absolute; right: 40px;" (click)="onLogOut()">
-                    <mdl-icon class ="color-scheme--white-c">input</mdl-icon>
+                    <mdl-icon class ="color-scheme--white-c" mdl-tooltip="Logout">input</mdl-icon>
                 </button>
         </mdl-layout-header-row>
     </mdl-layout-header>
@@ -100,17 +100,14 @@
 
 
 
-                            <button  #editUserButton mdl-button mdl-button-type="icon" (click)="editUserDialog.show(); setCourse(course._id)">
+                            <button  #editUserButton mdl-button mdl-button-type="icon" *ngIf = "_userService.user && _userService.user.role === 'teacher'" (click)="editUserDialog.show(); setCourse(course._id)">
                                 <mdl-icon mdl-tooltip="Edit" >edit</mdl-icon>
                             </button>
-                            <button mdl-button mdl-button-type="icon" [routerLink]="['/course', course._id]">
+                            <button mdl-button mdl-button-type="icon"  [routerLink]="['/course', course._id]">
                                 <mdl-icon mdl-tooltip="View">description</mdl-icon>
                             </button>
                             <button mdl-button mdl-button-type="icon" (click)="onCourseDelete(course._id)">
                                 <mdl-icon mdl-tooltip="Delete" >delete</mdl-icon>
-                            </button>
-                            <button mdl-button mdl-button-type="icon" >
-                                <mdl-icon mdl-tooltip="Add lab">add</mdl-icon>
                             </button>
 
                         </mdl-card-actions>

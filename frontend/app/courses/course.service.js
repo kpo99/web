@@ -52,6 +52,31 @@ var CourseService = (function () {
     };
     CourseService.prototype.courseCreate = function (courseObj) {
         return this._http.post(this.courseUrl, courseObj)
+            .toPromise()
+            .then(function (res) { return res.json(); });
+    };
+    CourseService.prototype.courseAddLab = function (labObj) {
+        return this._http.post(this.courseUrl + '/lab', labObj)
+            .toPromise()
+            .then(function (response) { return response.json(); });
+    };
+    CourseService.prototype.courseGetLab = function (course_id, lab_id) {
+        var params = new http_1.URLSearchParams();
+        params.set('course_id', course_id);
+        params.set('lab_id', lab_id);
+        return this._http.get(this.courseUrl + '/lab', { search: params })
+            .toPromise()
+            .then(function (res) { return res.json() || {}; });
+    };
+    CourseService.prototype.courseGenerateLab = function (course_id, lab_id) {
+        var params = new http_1.URLSearchParams();
+        params.set('course_id', course_id);
+        params.set('lab_id', lab_id);
+        return this._http.get(this.courseUrl + '/generate', { search: params })
+            .toPromise();
+    };
+    CourseService.prototype.courseUpdateLab = function (updateObj) {
+        return this._http.put(this.courseUrl + '/lab', updateObj)
             .toPromise();
     };
     CourseService.prototype.handleError = function (error) {

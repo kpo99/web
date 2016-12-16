@@ -5,11 +5,11 @@
            <mdl-textfield   icon="search" class="color-scheme--white-c" type="text"  [(ngModel)]="findBy" style ="width: 220px; " ></mdl-textfield>
 
                 <button mdl-button mdl-button-type="icon" style="position: absolute; right: 110px;" [routerLink]="['/settings']">
-                    <mdl-icon class ="color-scheme--white-c">settings</mdl-icon>
+                    <mdl-icon class ="color-scheme--white-c" mdl-tooltip="Settings">settings</mdl-icon>
                 </button>
 
                 <button mdl-button mdl-button-type="icon" style="position: absolute; right: 40px;" (click)="onLogOut()">
-                    <mdl-icon class ="color-scheme--white-c">input</mdl-icon>
+                    <mdl-icon class ="color-scheme--white-c" mdl-tooltip="Logout">input</mdl-icon>
                 </button>
 
             </mdl-layout-header-row>

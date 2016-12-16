@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import  {Http, Response, URLSearchParams} from '@angular/http';
+import  {Http, Response, URLSearchParams, Headers, BrowserXhr} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
@@ -59,8 +59,44 @@ export class CourseService {
     courseCreate(courseObj : Object) : Promise<Response> {
 
         return this._http.post(this.courseUrl,courseObj)
+            .toPromise()
+            .then(res => res.json());
+    }
+
+    courseAddLab(labObj : Object ) : Promise<Response> {
+        return this._http.post(this.courseUrl + '/lab', labObj)
+            .toPromise()
+            .then(response => response.json());
+    }
+
+    courseGetLab(course_id : string, lab_id : string) : Promise<Response>
+    {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('course_id', course_id);
+        params.set('lab_id', lab_id);
+
+        return this._http.get(this.courseUrl + '/lab', {search: params})
+            .toPromise()
+            .then(res => res.json() || {});
+    }
+
+
+    courseGenerateLab(course_id : string, lab_id : string): Promise<Response>
+    {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('course_id', course_id);
+        params.set('lab_id', lab_id);
+
+        return this._http.get(this.courseUrl + '/generate', {search: params})
+            .toPromise();
+
+    }
+
+    courseUpdateLab(updateObj : Object) : Promise<Response>{
+        return this._http.put(this.courseUrl + '/lab', updateObj)
             .toPromise();
     }
+
 
 
     private handleError(error: Response)

@@ -42,6 +42,16 @@ var LabSchema = new Schema({
         type: Number,
         required: true,
         default: 1
+    },
+    summary : {
+        type : String,
+        maxLength: descriptionMaxLength
+    },
+    code_examples : {
+        type : String
+    },
+    user_id : {
+        type : String
     }
 });
 
