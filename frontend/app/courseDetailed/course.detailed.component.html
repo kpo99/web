@@ -29,10 +29,12 @@
 <mdl-layout mdl-layout-fixed-header mdl-layout-fixed-drawer >
     <mdl-layout-header mdl-shadow="6">
         <mdl-layout-header-row class ="header-panel-color">
+            <button mdl-button mdl-button-type="icon" [routerLink]="['/courses']">
+                <mdl-icon class ="color-scheme--white-c">home</mdl-icon>
+            </button>
             <button mdl-button mdl-button-type="icon" style="position: absolute; right: 110px;" [routerLink]="['/settings']">
                 <mdl-icon class ="color-scheme--white-c" mdl-tooltip="Settings">settings</mdl-icon>
             </button>
-
             <button mdl-button mdl-button-type="icon" style="position: absolute; right: 40px;" (click)="onLogOut()">
                 <mdl-icon class ="color-scheme--white-c" mdl-tooltip="Logout">input</mdl-icon>
             </button>
