@@ -31,7 +31,7 @@ var UserCoursesComponent = (function () {
     }
     UserCoursesComponent.prototype.getCourses = function () {
         var _this = this;
-        this._courseService.getCoursesBrief('http://127.0.0.1:3000/api/user/course?size=0&offset=0')
+        this._courseService.getCoursesBrief('/api/user/course?size=0&offset=0')
             .subscribe(function (courses) {
             _this.courses = courses;
             _this.courses_m = courses;
