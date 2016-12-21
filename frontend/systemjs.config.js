@@ -1,3 +1,4 @@
+import {Router as System} from "@angular/router/bundles/router.umd";
 /**
  * System configuration for Angular 2 samples
  * Adjust as necessary for your application needs.
