@@ -1,7 +1,7 @@
 {
 
     "scripts": {
-        "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
+        "start": "tsc && concurrently \"tsc -w\" \"lite-server\" "
     },
     "license": "ISC",
         "dependencies": {
