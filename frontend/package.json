@@ -14,7 +14,8 @@
         "@angular/platform-browser-dynamic": "2.2.0",
         "@angular/router": "3.2.0",
         "@angular/upgrade": "2.2.0",
-         "ng2-imageupload": "^1.2.2",
+        "ng2-imageupload": "^1.2.2",
+          "ng2-webstorage": "1.4.1",
         "angular2-mdl": "^2.8.0",
 
         "core-js": "^2.4.1",
