@@ -34,12 +34,9 @@ export class UserService {
         return this._http.get('/api/auth/isAuthorized').toPromise()
             .catch(err => console.log(JSON.stringify(err)));
     }
-    signUp(userObj: Object) : Observable<IUser> {
+    signUp(userObj: Object) : Promise<Response> {
         return this._http.post('/api/auth/signUp',userObj)
-            .map((response : Response) => {
-                return <IUser>response.json();
-            });
-           // .catch(this.handleError);
+            .toPromise();
     }
 
     logOut() : Promise<Response> {
@@ -48,6 +45,11 @@ export class UserService {
             .toPromise();
             //.then(res => res.json() || {});
             
+    }
+
+    updatePassword(updateObj : Object) : Promise<Response> {
+        return this._http.put('/api/user/password',updateObj)
+            .toPromise();
     }
 
     update(user : IUser): Promise<Response> {

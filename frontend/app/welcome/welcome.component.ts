@@ -19,6 +19,20 @@ export class  WelcomeComponent implements OnInit
     password : string;
     user : IUser;
 
+    name : string = '';
+    surname: string = '';
+    patronymic : string = '';
+    regUsername : string = '';
+    regPassword : string = '';
+    regPasswordConfirm : string = '';
+    group_name : string = '';
+    email : string = '';
+    study_year  : number;
+
+
+
+
+
     constructor(private _userService: UserService, private _router : Router, private _courseService: CourseService){
 
     }
@@ -39,6 +53,33 @@ export class  WelcomeComponent implements OnInit
         this._userService.logOut()
             .then(response => this._router.navigate(['/welcome']))
             .catch((error) => console.log(error));
+    }
+
+    onSignUp() : void {
+        var userObj = {
+            name : this.name,
+            surname : this.surname,
+            patronymic : this.patronymic,
+            username : this.regUsername,
+            password : this.regPassword,
+            passwordConfirm : this.regPasswordConfirm,
+            email : this.email,
+            group_name : this.group_name,
+            study_year : this.study_year
+        };
+
+        this._userService.signUp(userObj)
+            .catch((error) => console.log(JSON.stringify(error)));
+    }
+
+
+
+    isDisabled() : boolean {
+        return (!this.name || !this.surname || !this.regPassword || !this.regPasswordConfirm ||
+        !this.regUsername || !this.group_name || !this.study_year || !this.email || (this.name.length < 3) ||
+        (this.surname.length < 3) || (this.regUsername.length < 3) || (this.regPassword.length < 6) || (this.regPasswordConfirm.length < 6)
+        || (this.group_name.length < 4) || (this.email.length < 12) || (this.regPassword !== this.regPasswordConfirm)
+        || (this.study_year < 1) || (this.study_year > 6));
     }
 
     ngOnInit(): void {

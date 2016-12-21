@@ -15,12 +15,12 @@ export class SettingsPasswordComponent implements OnInit {
     currentPassword : string = '';
     newPassword : string = '';
     confirmedPassword : string = '';
+    isChanged : boolean = false;
     
     constructor(private _userService : UserService, private _router : Router){}
 
 
     ngOnInit(): void {
-        console.log('IN!!!');
     }
 
     onLogOut() : void {
@@ -32,12 +32,31 @@ export class SettingsPasswordComponent implements OnInit {
     }
 
     onUpdate() : void {
-        
+        var updateObj = {
+            old_password : this.currentPassword,
+            new_password : this.newPassword,
+            confirm_password : this.confirmedPassword
+        };
+
+        this._userService.updatePassword(updateObj)
+            .then(() => {
+                this.currentPassword = null;
+                this.newPassword = null;
+                this.confirmedPassword = null;
+                this.isChanged = true;
+            })
+            .catch((error) =>
+            {
+                console.log(JSON.stringify(error));
+                this.isChanged = false;
+            });
     }
 
 
-    isDisable1() : boolean{
-        return ((this.currentPassword.length === 0) || (this.newPassword.length === 0) ||  (this.confirmedPassword.length === 0));
+    isDisable() : boolean{
+        return (!this.currentPassword || (this.currentPassword.length === 0) || !this.newPassword ||
+        (this.newPassword.length === 0) ||  !this.confirmedPassword || (this.confirmedPassword.length === 0)
+        || (this.newPassword !== this.confirmedPassword));
     }
 
 

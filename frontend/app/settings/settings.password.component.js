@@ -18,9 +18,9 @@ var SettingsPasswordComponent = (function () {
         this.currentPassword = '';
         this.newPassword = '';
         this.confirmedPassword = '';
+        this.isChanged = false;
     }
     SettingsPasswordComponent.prototype.ngOnInit = function () {
-        console.log('IN!!!');
     };
     SettingsPasswordComponent.prototype.onLogOut = function () {
         var _this = this;
@@ -31,9 +31,28 @@ var SettingsPasswordComponent = (function () {
             .catch(function (error) { return console.log(JSON.stringify(error)); });
     };
     SettingsPasswordComponent.prototype.onUpdate = function () {
+        var _this = this;
+        var updateObj = {
+            old_password: this.currentPassword,
+            new_password: this.newPassword,
+            confirm_password: this.confirmedPassword
+        };
+        this._userService.updatePassword(updateObj)
+            .then(function () {
+            _this.currentPassword = null;
+            _this.newPassword = null;
+            _this.confirmedPassword = null;
+            _this.isChanged = true;
+        })
+            .catch(function (error) {
+            console.log(JSON.stringify(error));
+            _this.isChanged = false;
+        });
     };
-    SettingsPasswordComponent.prototype.isDisable1 = function () {
-        return ((this.currentPassword.length === 0) || (this.newPassword.length === 0) || (this.confirmedPassword.length === 0));
+    SettingsPasswordComponent.prototype.isDisable = function () {
+        return (!this.currentPassword || (this.currentPassword.length === 0) || !this.newPassword ||
+            (this.newPassword.length === 0) || !this.confirmedPassword || (this.confirmedPassword.length === 0)
+            || (this.newPassword !== this.confirmedPassword));
     };
     SettingsPasswordComponent = __decorate([
         core_1.Component({

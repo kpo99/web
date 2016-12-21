@@ -1,12 +1,63 @@
+<mdl-dialog #editUserDialog
+            [mdl-dialog-config]="{
+              clickOutsideToClose: true,
+              styles:{'width': '620px', 'height' : '500px'},
+              isModal:true,
+              openFrom: editUserButton,
+              enterTransitionDuration: 400,
+              leaveTransitionDuration: 400}">
+    <h3 class="mdl-dialog__title">Create User</h3>
+    <div class="mdl-dialog__content">
+
+        <mdl-textfield type="text" required label="Name" [(ngModel)]="name" style ="width: 250px; position:  absolute; left : 35px; " floating-label autofocus></mdl-textfield>
+        <mdl-textfield type="text" required label="Surname" [(ngModel)]="surname" style ="width: 250px; position:  absolute; right : 35px; " floating-label ></mdl-textfield>
+        <mdl-textfield type="text" required label="Patronymic" [(ngModel)]="patronymic" style ="width: 250px; position:  absolute; left : 35px; top: 160px; " floating-label ></mdl-textfield>
+        <mdl-textfield type="text" required label="Username" [(ngModel)]="regUsername" style ="width: 250px; position:  absolute; right : 35px; top: 160px;" floating-label ></mdl-textfield>
+        <mdl-textfield type="text" required label="Group name" [(ngModel)]="group_name" style ="width: 250px; position:  absolute; left : 35px; top: 220px; " floating-label ></mdl-textfield>
+        <mdl-textfield type="number" required min="1" max="6" error-msg="Invalid value, only 1-6!" label="Study year"  style ="width: 250px; position:  absolute; right : 35px; top: 220px; " [(ngModel)]="study_year" floating-label></mdl-textfield>
+        <mdl-textfield type="password" required label="Password" [(ngModel)]="regPassword" style ="width: 250px; position:  absolute; left : 35px; top: 290px;" floating-label ></mdl-textfield>
+        <mdl-textfield type="password" required label="Password confirmation" [(ngModel)]="regPasswordConfirm" style ="width: 250px; position:  absolute; right : 35px; top: 290px; " floating-label ></mdl-textfield>
+        <mdl-textfield type="email" required label="Email" [(ngModel)]="email" style =" position:  absolute; left : 170px; top: 350px;" floating-label ></mdl-textfield>
+    </div>
+    <div class="mdl-dialog__actions" style =" position:  absolute; right : 50px; top: 430px;">
+        <button mdl-button (click)="onSignUp(); editUserDialog.close();" [disabled] ="isDisabled()" mdl-button-type="raised" mdl-colored="primary" mdl-ripple>Save</button>
+        <button mdl-button (click)="editUserDialog.close()" mdl-ripple>Cancel</button>
+    </div>
+</mdl-dialog>
+
 <div class="demo-container" mdl-shadow="2">
     <mdl-layout  mdl-layout-fixed-header>
             <mdl-layout-header mdl-shadow="6">
                 <mdl-layout-header-row class ="header-panel-color">
+                    <h5 align = "center" class ="color-scheme--white-c">Welcome to Repogen</h5>
+                    <mdl-layout-spacer></mdl-layout-spacer>
+                    <button  mdl-button   mdl-ripple (click)="editUserDialog.show()" ><div class ="color-scheme--white-c">Sign Up</div></button>
 
                 </mdl-layout-header-row>
             </mdl-layout-header>
 
         <mdl-layout-content class ="color-scheme--grey">
+
+
+            <div>
+                <mdl-card mdl-shadow="4" style ="width: 700px; height: 400px; left: 100px; top: 70px;">
+                    <h3 align="center">Welcome</h3>
+                    <h5 style="position:relative; left:30px; width: 90%">
+                        In this website you can create, modify and download your reports,
+                        <br>
+                        <br>
+                        You are able to subscribe to any course, you want and in a
+                        <br><br>
+                         few clicks get your report with predefined  data plus your own
+                        <br><br>
+                        examples and summaries.
+                        <br><br>
+                        All you need, to get started, is Sign Up.
+
+                    </h5>
+
+                </mdl-card>
+            </div>
             <div class="login-form" >
                 <mdl-card mdl-shadow="2">
                     <br>
@@ -24,7 +75,7 @@
 
                 </mdl-card>
             </div>
-
+        <dialog-outlet></dialog-outlet>
         </mdl-layout-content>
     </mdl-layout>
 </div>

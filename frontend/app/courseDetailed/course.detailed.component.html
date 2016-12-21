@@ -49,7 +49,7 @@
             <br>
             <a class="mdl-navigation__link color-scheme--white"  mdl-shadow="6" [routerLink]="['/courses/my']" align="center"><h6>My courses</h6></a>
             <br>
-            <a *ngIf="_userService.user && _userService.user.role === 'teacher'" class="mdl-navigation__link color-scheme--white"  mdl-shadow="6"  align="center"><h6>Add Course</h6></a>
+            <a *ngIf="_userService.user && _userService.user.role === 'teacher'" class="mdl-navigation__link color-scheme--white" [routerLink]="['/course/add']"  mdl-shadow="6"  align="center"><h6>Add Course</h6></a>
         </nav>
     </mdl-layout-drawer>
     <mdl-layout-content class ="color-scheme--grey">

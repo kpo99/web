@@ -19,24 +19,32 @@ exports.create = function(req,res){
                 reject(reject([values.internalServerError,err]));
             if (user)
                 reject(reject([400,jsonStatus.wrong_username]));
+            else
+            {
+                var userEntry = new User({
+                    name: req.body.name,
+                    surname: req.body.surname,
+                    patronymic: req.body.patronymic,
+                    username: req.body.username,
+                    password: hash.sha512(req.body.password).passwordHash,
+                    email: req.body.email,
+                    group_name : req.body.group_name,
+                    study_year : parseInt(req.body.study_year)
+
+
+                });
+
+                userEntry.save(function (err, user) {
+                    if (err)
+                        reject(reject([values.internalServerError,err]));
+                    if (user)
+                        resolve(user);
+                });
+            }
 
         });
 
-        var userEntry = new User({
-            name: req.body.name,
-            surname: req.body.surname,
-            patronymic: req.body.patronymic,
-            username: req.body.username,
-            password: hash.sha512(req.body.password).passwordHash,
-            email: req.body.email
 
-        });
-
-        userEntry.save(function (err, user) {
-            if (err)
-                reject(reject([values.internalServerError,err]));
-             resolve(user);
-        });
     });
 };
 
@@ -92,13 +100,13 @@ exports.user_changePassword = function(req){
     return new Promise(function (resolve,reject) {
        if (req.user)
        {
-            if (req.query.old_password && req.query.new_password && req.query.confirm_password){
-                if (req.query.new_password !== req.query.confirm_password)
+            if (req.body.old_password && req.body.new_password && req.body.confirm_password){
+                if (req.body.new_password !== req.body.confirm_password)
                     reject([402,jsonStatus.pass_no_match]);
                 user_getById(req.user._id)
                     .then(user => {
-                        if (user.password === hash.sha512(req.query.old_password).passwordHash){
-                            user.password = hash.sha512(req.query.new_password).passwordHash;
+                        if (user.password === hash.sha512(req.body.old_password).passwordHash){
+                            user.password = hash.sha512(req.body.new_password).passwordHash;
                             user.save(function (err) {
                                if(err)
                                    reject([values.internalServerError,err]);

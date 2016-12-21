@@ -10,6 +10,7 @@ var jsonStatus = require('../../config/status')
 
 router.post('/signUp', function(req, res, next) {
     if (req.body.password === req.body.passwordConfirm) {
+        console.log(req.body);
         userCtrl.create(req, res)
             .then(userObj => res.json(userObj))
             .catch(err=>res.json(err));

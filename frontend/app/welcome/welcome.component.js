@@ -18,6 +18,14 @@ var WelcomeComponent = (function () {
         this._router = _router;
         this._courseService = _courseService;
         this.pageTitle = 'Lab Generator';
+        this.name = '';
+        this.surname = '';
+        this.patronymic = '';
+        this.regUsername = '';
+        this.regPassword = '';
+        this.regPasswordConfirm = '';
+        this.group_name = '';
+        this.email = '';
     }
     WelcomeComponent.prototype.onLogIn = function () {
         var _this = this;
@@ -35,6 +43,28 @@ var WelcomeComponent = (function () {
         this._userService.logOut()
             .then(function (response) { return _this._router.navigate(['/welcome']); })
             .catch(function (error) { return console.log(error); });
+    };
+    WelcomeComponent.prototype.onSignUp = function () {
+        var userObj = {
+            name: this.name,
+            surname: this.surname,
+            patronymic: this.patronymic,
+            username: this.regUsername,
+            password: this.regPassword,
+            passwordConfirm: this.regPasswordConfirm,
+            email: this.email,
+            group_name: this.group_name,
+            study_year: this.study_year
+        };
+        this._userService.signUp(userObj)
+            .catch(function (error) { return console.log(JSON.stringify(error)); });
+    };
+    WelcomeComponent.prototype.isDisabled = function () {
+        return (!this.name || !this.surname || !this.regPassword || !this.regPasswordConfirm ||
+            !this.regUsername || !this.group_name || !this.study_year || !this.email || (this.name.length < 3) ||
+            (this.surname.length < 3) || (this.regUsername.length < 3) || (this.regPassword.length < 6) || (this.regPasswordConfirm.length < 6)
+            || (this.group_name.length < 4) || (this.email.length < 12) || (this.regPassword !== this.regPasswordConfirm)
+            || (this.study_year < 1) || (this.study_year > 6));
     };
     WelcomeComponent.prototype.ngOnInit = function () {
     };

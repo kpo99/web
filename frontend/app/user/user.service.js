@@ -36,16 +36,17 @@ var UserService = (function () {
     };
     UserService.prototype.signUp = function (userObj) {
         return this._http.post('/api/auth/signUp', userObj)
-            .map(function (response) {
-            return response.json();
-        });
-        // .catch(this.handleError);
+            .toPromise();
     };
     UserService.prototype.logOut = function () {
         this.user = null;
         return this._http.get('/api/auth/logOut')
             .toPromise();
         //.then(res => res.json() || {});
+    };
+    UserService.prototype.updatePassword = function (updateObj) {
+        return this._http.put('/api/user/password', updateObj)
+            .toPromise();
     };
     UserService.prototype.update = function (user) {
         var _this = this;

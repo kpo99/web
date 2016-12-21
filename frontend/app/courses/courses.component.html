@@ -64,11 +64,11 @@
                         <img [src] ='course.course_logo' height="150" width="150" class="color-scheme--white">
                     </div>
                     <mdl-card-actions mdl-card-border>
-                        <button mdl-button mdl-colored mdl-ripple *ngIf = "_userService.user && _userService.user.role !== 'teacher'"(click)="onSubscribe(course._id)">
-                            Subscribe
+                        <button mdl-button mdl-button-type="icon"  [routerLink]="['/course', course._id]">
+                            <mdl-icon mdl-tooltip="View">description</mdl-icon>
                         </button>
-                        <button mdl-button mdl-colored mdl-ripple [routerLink]="['/course', course._id]">
-                            View
+                        <button mdl-button mdl-button-type="icon" *ngIf = "_userService.user && _userService.user.role !== 'teacher'"(click)="onSubscribe(course._id)">
+                            <mdl-icon mdl-tooltip="Subscribe" >add</mdl-icon>
                         </button>
                     </mdl-card-actions>
                 </mdl-card>
