@@ -11,7 +11,7 @@ import {ICourseBrief} from './briefCourseInterface';
 
 export class CourseService {
     //private _courseUrl = 'http://127.0.0.1:3000/api/courses?size=0&offset=0';
-        private courseUrl = 'http://127.0.0.1:3000/api/user/course';
+        private courseUrl = '/api/user/course';
 
 
     constructor(private _http : Http){

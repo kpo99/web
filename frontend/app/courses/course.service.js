@@ -18,7 +18,7 @@ var CourseService = (function () {
     function CourseService(_http) {
         this._http = _http;
         //private _courseUrl = 'http://127.0.0.1:3000/api/courses?size=0&offset=0';
-        this.courseUrl = 'http://127.0.0.1:3000/api/user/course';
+        this.courseUrl = '/api/user/course';
     }
     CourseService.prototype.getCoursesBrief = function (_courseUrl) {
         return this._http.get(_courseUrl)
